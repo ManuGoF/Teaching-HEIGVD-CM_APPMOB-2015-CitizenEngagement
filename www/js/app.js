@@ -43,7 +43,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
         }
     })
 
-    .state('app.newsIssue', {
+    .state('app.newIssue', {
         url: "/newIssue",
         views: {
             'menuContent': {

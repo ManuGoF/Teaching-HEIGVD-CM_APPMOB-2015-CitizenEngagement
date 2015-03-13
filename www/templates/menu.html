@@ -17,6 +17,12 @@
     </header>
     <ion-content class="has-header">
       <ion-list>
+        <ion-item nav-clear menu-close href="#/app/newIssue">
+          Create Issue
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/issueMap">
+          Issue Map
+        </ion-item>
         <ion-item nav-clear menu-close href="#/app/search">
           Search
         </ion-item>
@@ -28,24 +34,6 @@
         </ion-item>
         <ion-item nav-clear menu-close ng-controller="LogoutCtrl" ng-click="logOut()" >
           Log Out
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-side-menu>
-
-  <ion-side-menu side="right">
-    <header class="bar bar-header bar-stable">
-      <div class="bar bar-header bar-dark">
-        <h1 class="title">Liste</h1>
-      </div>
-    </header>
-    <ion-content class="has-header">
-      <ion-list>
-        <ion-item nav-clear menu-close href="#/app/newIssue">
-          Create Issue
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/issueMap">
-          Issue Map
         </ion-item>
       </ion-list>
     </ion-content>
