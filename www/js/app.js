@@ -70,6 +70,15 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
         }
     })
 
+    .state('app.myAccount', {
+        url: "/myAccount",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/myAccount.html"
+            }
+        }
+    })
+
     .state('login', {
         url: '/login',
         controller: 'LoginCtrl',
