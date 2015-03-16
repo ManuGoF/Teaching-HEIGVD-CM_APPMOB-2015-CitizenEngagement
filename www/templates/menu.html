@@ -60,7 +60,7 @@
                 <label ng-show="typeSearchVisible" class="item item-input searchlist">
                   <input type="text" placeholder="Search by type" ng-model="textSearch">
                 </label>
-                <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ui-sref="app.issueDetails()">
+                <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ng-click="issueDetails({{issue.id}})">
                     {{issue.description}}
                     <img src="{{issue.img}}">
                 </ion-item>

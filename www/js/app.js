@@ -152,12 +152,13 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             });
         })
 
-        .controller("IssueDetailsController", function ($scope, $stateParams) {
-            $scope.id = $stateParams.id;
-            console.log('salut');
+        .controller('CreateIssue', function($scope, $state) {
+            $scope.createIssue = function() {
+                
+            };
         })
 
-        .controller("IssueController", function ($scope, IssueService) {
+        .controller("IssueController", function ($state, $scope, IssueService) {
             $scope.issues = [];
             var issueList = IssueService.getIssues();
             issueList.success(function (issues) {
@@ -168,8 +169,10 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         description: issue.description,
                         img: issue.imageUrl
                     });
-
                 })
+                $scope.issueDetails = function() {
+                    $state.go('app.issueDetails');
+                }
 
             });
         })
