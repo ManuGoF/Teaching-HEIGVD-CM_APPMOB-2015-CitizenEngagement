@@ -79,7 +79,6 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
 
         .controller('CreateIssue', function($scope, $state) {
             $scope.createIssue = function() {
-                //AuthService.unsetUser();
                 $state.go('app.newIssue');
             };
         })
