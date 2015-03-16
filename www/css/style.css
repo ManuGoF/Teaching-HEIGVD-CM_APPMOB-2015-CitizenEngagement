@@ -28,8 +28,9 @@ body {
 
 .listlink {
 	top: 5px;
+	font-size: 150%;
 }
 
-.searchlist{
+.searchlist {
 	background-color: #eee;
 }
