@@ -86,11 +86,10 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         templateUrl: 'templates/login.html'
                     })
                     .state('app.issueDetails', {
-                        url: '/issue/details/:id',
+                        url: '/issueDetails/:issueId',
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/issueDetails.html",
-                                //controller: 'IssueDetailsController'
                             }
                         }
 
@@ -156,7 +155,6 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             $scope.issues = [];
             var issueList = IssueService.getIssues();
             issueList.success(function (issues) {
-                console.log(issues);
                 angular.forEach(issues, function (issue, key) {
                     $scope.issues.push({
                         id: issue.id,
@@ -164,10 +162,17 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         img: issue.imageUrl
                     });
                 })
-                $scope.issueDetails = function() {
-                    $state.go('app.issueDetails');
-                }
+                $scope.issueDetails = function (issue) {
+                    $state.go('app.issueDetails', {issueId: issue});
+                };
+            });
+        })
 
+        .controller("IssueDetailsController", function ($scope, $stateParams, IssueService) {
+            $scope.issue;
+            IssueService.getIssue($stateParams.issueId).success(function(issue) {
+                $scope.issue = issue;
+                console.log($scope);
             });
         })
 
@@ -175,9 +180,17 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             return {
                 getIssues: function () {
                     return $http({
-                        url: apiUrl + "/issues"
+                        url: apiUrl  + "/issues"
+                    });
+                },
+                
+                getIssue: function(issueId) {
+                    return $http({
+                        url: apiUrl + "/issues/" + issueId
                     });
                 }
             };
+            
+
         });
 ;
