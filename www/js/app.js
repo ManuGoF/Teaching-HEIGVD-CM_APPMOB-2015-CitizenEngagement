@@ -85,10 +85,20 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         controller: 'LoginCtrl',
                         templateUrl: 'templates/login.html'
                     })
+                    .state('app.issueDetails', {
+                        url: '/issue/details/:id',
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/issueDetails.html",
+                                //controller: 'IssueDetailsController'
+                            }
+                        }
+
+                    })
                     ;
             // Define the default state (i.e. the first screen displayed when the app opens).
             $urlRouterProvider.otherwise(function ($injector) {
-                $injector.get('$state').go('app.newIssue'); // Go to the new issue tab by default.
+                $injector.get('$state').go('app.issueMap'); // Go to the new issue tab by default.
             });
         })
 
@@ -131,7 +141,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" />',
+                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
@@ -139,7 +149,27 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         }
                     });
                 })
+            });
+        })
 
+        .controller("IssueDetailsController", function ($scope, $stateParams) {
+            $scope.id = $stateParams.id;
+            console.log('salut');
+        })
+
+        .controller("IssueController", function ($scope, IssueService) {
+            $scope.issues = [];
+            var issueList = IssueService.getIssues();
+            issueList.success(function (issues) {
+                console.log(issues);
+                angular.forEach(issues, function (issue, key) {
+                    $scope.issues.push({
+                        id: issue.id,
+                        description: issue.description,
+                        img: issue.imageUrl
+                    });
+
+                })
 
             });
         })
