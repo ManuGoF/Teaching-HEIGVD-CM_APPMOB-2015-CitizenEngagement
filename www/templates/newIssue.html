@@ -3,7 +3,31 @@
         <button class="button button-clear icon ion-chevron-left" ng-controller="MapController" ng-click="backToMap()"> Back</button>
     </ion-nav-buttons>
   	<ion-content>
-    	<p>Hello! This is the issue creation screen.</p>
+      <div class="list">
+
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Type
+          </div>
+          <select>
+            <option no selection></option>
+            <option>Type 1</option>
+            <option>Type 2</option>
+            <option>Type 3</option>
+            <option>Type 4</option>
+            <option>Type 5</option>
+          </select>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Description</span>
+          <input type="text" placeholder="Description">
+        </label>
+
+        <button class="button button-full button-energized">
+          Create
+        </button>
+
+      </div>
   	</ion-content>
 </ion-view>
 
