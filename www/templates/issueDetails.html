@@ -6,7 +6,34 @@
         <button class="button button-clear icon ion-chevron-left" ng-controller="MapController" ng-click="backToMap()"> Back</button>
     </ion-nav-buttons>
     <ion-content ng-controller="IssueDetailsController">
-        <p>{{issue}}</p>
+        
+        <div class="list card">
+
+            <div class="item item-avatar">
+                <img src="mcfly.jpg">
+                <h2>{{issue.owner.name}}</h2>
+                <p>{{formatDate(issue.createdOn) | date:"dd.MM.yyyy 'at' hh:mm"}}</p>
+            </div>
+
+            <div class="item item-body">
+                <img class="full-image" src="{{issue.imageUrl}}">
+                <p>
+                    {{issue.description}}
+                </p>
+                <p>
+                    <a href="#" class="subdued">{{issue.comments.length}} Comments</a>
+                </p>
+            </div>
+
+            <div class="item tabs tabs-secondary tabs-icon-left">
+
+                <a class="tab-item" href="#">
+                    <i class="icon ion-chatbox"></i>
+                    Comment
+                </a>
+            </div>
+        </div>
     </ion-content>
+
 </ion-view>
 

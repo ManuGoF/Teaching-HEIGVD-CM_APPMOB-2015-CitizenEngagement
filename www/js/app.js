@@ -149,7 +149,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     });
                 })
             });
-            $scope.backToMap = function() {
+            $scope.backToMap = function () {
                 $state.go('app.issueMap');
             }
         })
@@ -173,44 +173,48 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
 
         .controller("IssueDetailsController", function ($scope, $stateParams, IssueService) {
             $scope.issue;
-            IssueService.getIssue($stateParams.issueId).success(function(issue) {
+            IssueService.getIssue($stateParams.issueId).success(function (issue) {
                 $scope.issue = issue;
+                $scope.formatDate = function (date) {
+                    var dateOut = new Date(date);
+                    return dateOut; 
+                };
                 console.log($scope);
             });
         })
 
-        .controller('MenuController', function($scope, $state) {
-            $scope.showTextSearch = function() {
-               $scope.textSearchVisible = true;
-               $scope.radiusSearchVisible = false;
-               $scope.typeSearchVisible = false;
-               $scope.showMineOnly = false;
+        .controller('MenuController', function ($scope, $state) {
+            $scope.showTextSearch = function () {
+                $scope.textSearchVisible = true;
+                $scope.radiusSearchVisible = false;
+                $scope.typeSearchVisible = false;
+                $scope.showMineOnly = false;
             };
 
-            $scope.showRadiusSearch = function() {
-               $scope.textSearchVisible = false;
-               $scope.radiusSearchVisible = true;
-               $scope.typeSearchVisible = false;
-               $scope.showMineOnly = false;
+            $scope.showRadiusSearch = function () {
+                $scope.textSearchVisible = false;
+                $scope.radiusSearchVisible = true;
+                $scope.typeSearchVisible = false;
+                $scope.showMineOnly = false;
             };
 
-            $scope.showTypeSearch = function() {
-               $scope.textSearchVisible = false;
-               $scope.radiusSearchVisible = false;
-               $scope.typeSearchVisible = true;
-               $scope.showMineOnly = false;
+            $scope.showTypeSearch = function () {
+                $scope.textSearchVisible = false;
+                $scope.radiusSearchVisible = false;
+                $scope.typeSearchVisible = true;
+                $scope.showMineOnly = false;
             };
 
-            $scope.showMineIssues = function() {
-               $scope.textSearchVisible = false;
-               $scope.radiusSearchVisible = false;
-               $scope.typeSearchVisible = false;
-               $scope.showMineOnly = true;
+            $scope.showMineIssues = function () {
+                $scope.textSearchVisible = false;
+                $scope.radiusSearchVisible = false;
+                $scope.typeSearchVisible = false;
+                $scope.showMineOnly = true;
             };
         })
 
-        .controller('CreateIssue', function($scope, $state) {
-            $scope.createIssue = function() {
+        .controller('CreateIssue', function ($scope, $state) {
+            $scope.createIssue = function () {
                 $state.go('app.newIssue');
             };
         })
@@ -219,17 +223,16 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             return {
                 getIssues: function () {
                     return $http({
-                        url: apiUrl  + "/issues"
+                        url: apiUrl + "/issues"
                     });
                 },
-                
-                getIssue: function(issueId) {
+                getIssue: function (issueId) {
                     return $http({
                         url: apiUrl + "/issues/" + issueId
                     });
                 }
             };
-            
+
 
         });
 ;
