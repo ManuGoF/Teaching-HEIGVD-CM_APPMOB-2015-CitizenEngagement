@@ -1,5 +1,5 @@
   <ion-side-menus>
-    <ion-side-menu-content>
+    <ion-side-menu-content drag-content="false">
         <ion-nav-bar class="bar-energized">
 
         </ion-nav-bar>
@@ -12,25 +12,26 @@
       </header>
       <ion-content id="parameters" class="has-header">
         <ion-list>
-          <ion-item nav-clear menu-close href="#/app/newIssue">
-            Create Issue
+          <ion-item nav-clear menu-close class="item item-icon-left" href="#/app/issueMap">
+            <i class="icon ion-map"></i>
+            Map
           </ion-item>
-          <ion-item nav-clear menu-close href="#/app/issueMap">
-            Issue Map
-          </ion-item>
-          <ion-item nav-clear menu-close href="#/app/search">
+<!--           <ion-item nav-clear menu-close href="#/app/search">
             Search
           </ion-item>
           <ion-item nav-clear menu-close href="#/app/browse">
             Browse
-          </ion-item>
-          <ion-item nav-clear menu-close href="#/app/myIssues">
+          </ion-item> -->
+          <ion-item nav-clear menu-close class="item item-icon-left" href="#/app/myIssues">
+            <i class="icon ion-navicon"></i>
             My issues
           </ion-item>
-          <ion-item nav-clear menu-close href="#/app/myAccount">
+          <ion-item nav-clear menu-close class="item item-icon-left" href="#/app/myAccount">
+            <i class="icon ion-ios-people"></i>
             My account
           </ion-item>
-          <ion-item nav-clear menu-close ng-controller="LogoutCtrl" ng-click="logOut()" >
+          <ion-item nav-clear menu-close class="item item-icon-left" ng-controller="LogoutCtrl" ng-click="logOut()" >
+            <i class="icon ion-android-exit"></i>
             Log Out
           </ion-item>
         </ion-list>
@@ -41,10 +42,38 @@
       <div ng-controller="MenuController">
         <header class="bar bar-header bar-stable bar-dark">
           <h1 class="title">
-            <a class="listlink button button-icon ion-ios-search-strong" ng-click="showTextSearch()"></a>
-            <a class="listlink button button-icon ion-android-locate" ng-click="showRadiusSearch()"></a>
-            <a class="listlink button button-icon ion-compose" ng-click="showTypeSearch()"></a>
-            <a class="listlink button button-icon ion-ios-people" ng-click="showMineIssues()"></a>
+            <a class="listlink button button-icon" ng-click="showTextSearch()">
+              <i class="listlink ion-ios-search-strong"></i>
+            </a>
+            <a class="listlink button button-icon" ng-click="showRadiusSearch()">
+              <i class="listlink ion-android-locate"></i>
+            </a>
+            <a class="listlink button button-icon" ng-click="showTypeSearch()">
+              <i class="listlink ion-compose"></i>
+            </a>
+<!--             <a class="listlink button button-icon ion-ios-people" ng-click="showMineIssues()"></a> -->
+            <!-- <div class="row">
+              <div class="col">
+                <a class="listlink button button-icon ion-ios-search-strong" ng-click="showTextSearch()"></a>
+              </div>
+              <div class="col">
+                <a class="listlink button button-icon ion-android-locate" ng-click="showRadiusSearch()"></a>
+              </div>
+              <div class="col">
+                <a class="listlink button button-icon ion-compose" ng-click="showTypeSearch()"></a> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                Text
+              </div>
+              <div class="col">
+                Radius
+              </div>
+              <div class="col"> 
+                Type 
+              </div>
+            </div> -->
           </h1>
         </header>
         <ion-content class="has-header">
