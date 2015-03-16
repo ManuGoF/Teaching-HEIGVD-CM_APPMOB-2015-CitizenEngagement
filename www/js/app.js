@@ -121,7 +121,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             $httpProvider.interceptors.push('AuthInterceptor');
         })
 
-        .controller("MapController", function ($scope, mapboxMapId, mapboxAccessToken, IssueService) {
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService) {
 
             var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
             mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken;
@@ -140,7 +140,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm">Details</a>',
+                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
@@ -149,6 +149,9 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     });
                 })
             });
+            $scope.backToMap = function() {
+                $state.go('app.issueMap');
+            }
         })
 
         .controller("IssueController", function ($state, $scope, IssueService) {

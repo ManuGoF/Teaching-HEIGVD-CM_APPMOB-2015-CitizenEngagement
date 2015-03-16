@@ -2,7 +2,9 @@
     <ion-nav-buttons side="right">
         <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="left"></ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button class="button button-clear icon ion-chevron-left" ng-controller="MapController" ng-click="backToMap()"> Back</button>
+    </ion-nav-buttons>
     <ion-content ng-controller="IssueDetailsController">
         <p>{{issue}}</p>
     </ion-content>
