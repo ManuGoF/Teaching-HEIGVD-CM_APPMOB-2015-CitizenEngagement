@@ -152,12 +152,6 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             });
         })
 
-        .controller('CreateIssue', function($scope, $state) {
-            $scope.createIssue = function() {
-                
-            };
-        })
-
         .controller("IssueController", function ($state, $scope, IssueService) {
             $scope.issues = [];
             var issueList = IssueService.getIssues();
