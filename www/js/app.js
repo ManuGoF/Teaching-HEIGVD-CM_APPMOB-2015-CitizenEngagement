@@ -86,9 +86,6 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                         templateUrl: 'templates/login.html'
                     })
                     ;
-
-
-
             // Define the default state (i.e. the first screen displayed when the app opens).
             $urlRouterProvider.otherwise(function ($injector) {
                 $injector.get('$state').go('app.newIssue'); // Go to the new issue tab by default.
@@ -115,19 +112,45 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             $httpProvider.interceptors.push('AuthInterceptor');
         })
 
-        .controller("MapController", function ($scope, mapboxMapId, mapboxAccessToken) {
-            
+        .controller("MapController", function ($scope, mapboxMapId, mapboxAccessToken, IssueService) {
+
             var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
             mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken;
-           
             $scope.mapDefaults = {
                 tileLayer: mapboxTileLayer
             };
             $scope.mapCenter = {
-                lat: 51.48,
-                lng: 0,
+                lat: 46.7752435,
+                lng: 6.638055,
                 zoom: 14
             };
             $scope.mapMarkers = [];
+            var issueList = IssueService.getIssues();
+            issueList.success(function (issues) {
+                angular.forEach(issues, function (issue, key) {
+                    $scope.mapMarkers.push({
+                        lat: issue.lat,
+                        lng: issue.lng,
+                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" />',
+                        getMessageScope: function () {
+                            var scope = $scope.$new();
+                            scope.issue = issue;
+                            return scope;
+                        }
+                    });
+                })
+
+
+            });
+        })
+
+        .factory("IssueService", function ($http, apiUrl) {
+            return {
+                getIssues: function () {
+                    return $http({
+                        url: apiUrl + "/issues"
+                    });
+                }
+            };
         });
 ;
