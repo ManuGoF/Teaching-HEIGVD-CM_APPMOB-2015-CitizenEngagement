@@ -1,13 +1,14 @@
 <ion-view view-title="Map">
-  	<ion-nav-buttons side="left">
-    <!-- <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button> -->
-  		<button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
-  	</ion-nav-buttons>
-  	<ion-nav-buttons side="right">
-    	<button menu-toggle="right" class="button button-icon icon ion-navicon">
-      	</button>
-  	</ion-nav-buttons>
-  	<ion-content>
-    	<p>Hello! This is the issue creation screen.</p>
-  	</ion-content>
+    <ion-nav-buttons side="left">
+        <!-- <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button> -->
+        <button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+   <ion-content scroll="false">
+         <leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" data-tap-disabled="true" height="100%"></leaflet>
+         <a id="createIssueButton" class="button button-icon ion-plus-circled"></a>
+    </ion-content>
 </ion-view>
+ 
