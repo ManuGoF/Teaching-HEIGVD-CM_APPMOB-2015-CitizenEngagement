@@ -7,8 +7,8 @@
         <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
    <ion-content scroll="false">
+        <a id="createIssueButton" class="button button-icon ion-plus-circled" ng-controller="CreateIssue" ng-click="createIssue()"></a>
          <leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" data-tap-disabled="true" height="100%"></leaflet>
-         <a id="createIssueButton" class="button button-icon ion-plus-circled"></a>
     </ion-content>
 </ion-view>
  
