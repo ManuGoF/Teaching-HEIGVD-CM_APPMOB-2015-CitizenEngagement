@@ -1,1 +1,8 @@
 /* Empty. Add your own CSS if you like */
+
+#createIssueButton {
+	color: #5FB404;
+	position: fixed;
+	right: 1em;
+	margin-bottom: -0.5em;
+}
