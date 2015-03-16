@@ -179,7 +179,9 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     var dateOut = new Date(date);
                     return dateOut; 
                 };
-                console.log($scope);
+                $scope.getMap = function(cord) {
+                    console.log(cord)
+                }
             });
         })
 
