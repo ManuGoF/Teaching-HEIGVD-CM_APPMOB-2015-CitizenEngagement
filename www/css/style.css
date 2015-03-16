@@ -1,5 +1,9 @@
 /* Empty. Add your own CSS if you like */
 
+body {
+	font-family: "Helvetica";
+}
+
 #createIssueButton {
 	/*color: #5FB404;*/
 	z-index: 99;
@@ -9,13 +13,23 @@
 	font-size: 50px;
 }
 
-#test {
+#parameters {
 	background-color: #444;
 }
 
-#test .item {
+#parameters .item {
 	background-color: #aaa;
+	border-color: #444;
 }
-#test .item-complex .item-content {
+#parameters .item-complex .item-content {
 	background-color: #aaa;
+	border-color: #444;
+}
+
+.listlink {
+	top: 5px;
+}
+
+.searchlist{
+	background-color: #eee;
 }

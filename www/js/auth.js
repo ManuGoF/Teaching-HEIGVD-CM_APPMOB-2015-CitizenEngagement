@@ -83,6 +83,36 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
             };
         })
 
+        .controller('MenuController', function($scope, $state) {
+            $scope.showTextSearch = function() {
+               $scope.textSearchVisible = true;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showRadiusSearch = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = true;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showTypeSearch = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = true;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showMineIssues = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = true;
+            };
+        })
+
         .factory('AuthInterceptor', function(AuthService) {
             return {
                 // The request function will be called before all requests.

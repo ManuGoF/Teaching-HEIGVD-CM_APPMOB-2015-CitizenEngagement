@@ -1,5 +1,4 @@
-<ion-side-menus>
-
+  <ion-side-menus>
     <ion-side-menu-content>
         <ion-nav-bar class="bar-energized">
             <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
@@ -9,56 +8,62 @@
         <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
 
-
     <ion-side-menu side="left">
-        <header class="bar bar-header bar-stable">
-            <div class="bar bar-header bar-dark">
-                <h1 class="title">Paramètres</h1>
-            </div>
-        </header>
-        <ion-content class="has-header">
-            <ion-list>
-                <ion-item nav-clear menu-close href="#/app/newIssue">
-                    Create Issue
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/issueMap">
-                    Issue Map
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/search">
-                    Search
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/browse">
-                    Browse
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/myIssues">
-                    My issues
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/myAccount">
-                    My account
-                </ion-item>
-                <ion-item nav-clear menu-close ng-controller="LogoutCtrl" ng-click="logOut()" >
-                    Log Out
-                </ion-item>
-            </ion-list>
-        </ion-content>
+      <header class="bar bar-header bar-stable bar-dark">
+        <h1 class="title">Paramètres</h1>
+      </header>
+      <ion-content id="parameters" class="has-header">
+        <ion-list>
+          <ion-item nav-clear menu-close href="#/app/newIssue">
+            Create Issue
+          </ion-item>
+          <ion-item nav-clear menu-close href="#/app/issueMap">
+            Issue Map
+          </ion-item>
+          <ion-item nav-clear menu-close href="#/app/search">
+            Search
+          </ion-item>
+          <ion-item nav-clear menu-close href="#/app/browse">
+            Browse
+          </ion-item>
+          <ion-item nav-clear menu-close href="#/app/myIssues">
+            My issues
+          </ion-item>
+          <ion-item nav-clear menu-close href="#/app/myAccount">
+            My account
+          </ion-item>
+          <ion-item nav-clear menu-close ng-controller="LogoutCtrl" ng-click="logOut()" >
+            Log Out
+          </ion-item>
+        </ion-list>
+      </ion-content>
     </ion-side-menu>
 
     <ion-side-menu side="right">
-        <header class="bar bar-header bar-stable">
-            <div class="bar bar-header bar-dark">
-                <h1 class="title">List</h1>
-            </div>
+      <div ng-controller="MenuController">
+        <header class="bar bar-header bar-stable bar-dark">
+          <h1 class="title">
+            <a class="listlink button button-icon ion-ios-search-strong" ng-click="showTextSearch()"></a>
+            <a class="listlink button button-icon ion-android-locate" ng-click="showRadiusSearch()"></a>
+            <a class="listlink button button-icon ion-compose" ng-click="showTypeSearch()"></a>
+            <a class="listlink button button-icon ion-ios-people" ng-click="showMineIssues()"></a>
+          </h1>
         </header>
         <ion-content class="has-header">
             <ion-list ng-controller="IssueController">
-
+                <label ng-show="textSearchVisible" class="item item-input searchlist">
+                  <input type="text" placeholder="Search by text" ng-model="textSearch">
+                </label>
+                <label ng-show="radiusSearchVisible" class="item item-input searchlist">
+                  <input type="text" placeholder="Search in a perimeter [km]" ng-model="textSearch">
+                </label>
+                <label ng-show="typeSearchVisible" class="item item-input searchlist">
+                  <input type="text" placeholder="Search by type" ng-model="textSearch">
+                </label>
                 <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ui-sref="app.issueDetails()">
                     {{issue.description}}
                     <img src="{{issue.img}}">
                 </ion-item>
-
             </ion-list>
         </ion-content>
     </ion-side-menu>
-
-</ion-side-menus>
