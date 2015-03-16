@@ -5,12 +5,15 @@ body {
 }
 
 #createIssueButton {
-	/*color: #5FB404;*/
+	/*color: #E6B400*/;/*Jaune*/
+	/*color: #FFC900;*//*Jaune*/
+	color: #145FD7;/*Bleu*/
+	/*color: #6C3;*//*Vert*/
 	z-index: 99;
 	position: absolute;
 	bottom: 8%;
 	right: 5%;
-	font-size: 50px;
+	font-size: 80px;
 }
 
 #parameters {
