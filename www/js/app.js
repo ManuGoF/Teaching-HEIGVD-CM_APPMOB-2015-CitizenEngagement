@@ -171,6 +171,42 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             });
         })
 
+        .controller('MenuController', function($scope, $state) {
+            $scope.showTextSearch = function() {
+               $scope.textSearchVisible = true;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showRadiusSearch = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = true;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showTypeSearch = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = true;
+               $scope.showMineOnly = false;
+            };
+
+            $scope.showMineIssues = function() {
+               $scope.textSearchVisible = false;
+               $scope.radiusSearchVisible = false;
+               $scope.typeSearchVisible = false;
+               $scope.showMineOnly = true;
+            };
+        })
+
+        .controller('CreateIssue', function($scope, $state) {
+            $scope.createIssue = function() {
+                $state.go('app.newIssue');
+            };
+        })
+
         .factory("IssueService", function ($http, apiUrl) {
             return {
                 getIssues: function () {
