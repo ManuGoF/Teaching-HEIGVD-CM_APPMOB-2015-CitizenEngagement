@@ -171,7 +171,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
             });
         })
 
-        .controller("IssueDetailsController", function ($scope, $stateParams, IssueService) {
+        .controller("IssueDetailsController", function ($scope, $stateParams, IssueService, mapboxMapId, mapboxAccessToken) {
             $scope.issue;
             IssueService.getIssue($stateParams.issueId).success(function (issue) {
                 $scope.issue = issue;
@@ -179,8 +179,8 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
                     var dateOut = new Date(date);
                     return dateOut; 
                 };
-                $scope.getMap = function(cord) {
-                    console.log(cord)
+                $scope.getMap = function(lat, lng) {
+                    return "http://api.tiles.mapbox.com/v4/"+mapboxMapId+"/pin-s-star+f44("+lat+","+lng+",14)/"+lat+","+lng+",14/500x300@2x.png?access_token="+mapboxAccessToken+"";
                 }
             });
         })
