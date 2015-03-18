@@ -1,6 +1,6 @@
-angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth'])
+angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', ])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService) {
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
 
             var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
             mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}@2x.png?access_token=" + mapboxAccessToken;
@@ -8,11 +8,11 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 tileLayer: mapboxTileLayer
             };
             $scope.mapCenter = {
-                lat: 46.7752435,
+                lat: 52.7752435,
                 lng: 6.638055,
                 zoom: 14
             };
-           
+
             $scope.mapMarkers = [];
             var issueList = IssueService.getIssues();
             issueList.success(function (issues) {
@@ -29,6 +29,13 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     });
                 });
             });
+            geolocation.getLocation().then(function (data) {
+                $scope.mapCenter.lat = data.coords.latitude;
+                $scope.mapCenter.lng = data.coords.longitude;
+            }, function (error) {
+                $log.error("Could not get location: " + error);
+            });
+            console.log($scope.mapCenter);
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
             };
@@ -43,9 +50,9 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $scope.issues = issues;
             });
 
-            $scope.$watch("search", function(search){
+            $scope.$watch("search", function (search) {
                 console.log(search.type);
-                IssueService.getIssues(search).success(function(issues) {
+                IssueService.getIssues(search).success(function (issues) {
                     $scope.issues = issues;
                 });
             }, true);
@@ -56,26 +63,26 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
 
         .controller("IssueTypeController", function ($state, $scope, IssueTypeService) {
-            
+
             var issueTypeList = IssueTypeService.getIssueTypes();
-            issueTypeList.success(function(issuetypes){
+            issueTypeList.success(function (issuetypes) {
                 $scope.issuetypes = issuetypes;
                 console.log(issuetypes);
             });
-            
-            
+
+
         })
         .controller("IssuesByUserController", function ($state, $scope, IssuesByUserService, AuthService) {
-            
+
             var issueTypeList = IssuesByUserService.getIssuesByUser(AuthService.currentUserId);
-            issueTypeList.success(function(issuesByUser){
+            issueTypeList.success(function (issuesByUser) {
                 $scope.issues = issuesByUser;
             });
             $scope.issueDetails = function (issue) {
                 $state.go('app.ownIssueDetails', {issueId: issue});
             };
-            
-            
+
+
         })
 
         .controller("IssueDetailsController", function ($scope, $stateParams, IssueService, mapboxMapId, mapboxAccessToken) {
@@ -92,15 +99,15 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 };
                 $scope.setVisibility = function () {
                     if ($scope.visibility === 'ng-hide') {
-                         $scope.visibility = 'ng-show';
+                        $scope.visibility = 'ng-show';
                     } else {
                         $scope.visibility = 'ng-hide';
                     }
                 };
             });
         })
-        
-         .controller("IssueActionDetailsController", function ($state, $scope, $stateParams, IssueService, ActionService, mapboxMapId, mapboxAccessToken) {
+
+        .controller("IssueActionDetailsController", function ($state, $scope, $stateParams, IssueService, ActionService, mapboxMapId, mapboxAccessToken) {
             $scope.visibility = 'ng-hide';
             IssueService.getIssue($stateParams.issueId).success(function (issue) {
                 $scope.issue = issue;
@@ -113,31 +120,31 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 };
                 $scope.setVisibility = function () {
                     if ($scope.visibility === 'ng-hide') {
-                         $scope.visibility = 'ng-show';
+                        $scope.visibility = 'ng-show';
                     } else {
                         $scope.visibility = 'ng-hide';
                     }
                 };
             });
-            
-            ActionService.getActions($stateParams.issueId).success(function(actions){
-               $scope.actions = actions;
+
+            ActionService.getActions($stateParams.issueId).success(function (actions) {
+                $scope.actions = actions;
             });
             $scope.backToMyIssues = function () {
                 $state.go('app.myIssues');
             };
-            
-            
+
+
         })
 
         .controller('MenuController', function ($scope, $state, $ionicScrollDelegate) {
             $scope.toggleSearch = function () {
-                if (!$scope.searchVisible){
+                if (!$scope.searchVisible) {
                     $scope.searchVisible = true;
-                    $ionicScrollDelegate.scrollTop();  
-                } 
+                    $ionicScrollDelegate.scrollTop();
+                }
                 else {
-                    $scope.searchVisible = false; 
+                    $scope.searchVisible = false;
                 }
             };
 

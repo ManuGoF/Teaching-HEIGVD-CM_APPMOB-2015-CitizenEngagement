@@ -5,14 +5,14 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                 getIssues: function (search) {
                     console.log(search);
 
-                    if (search.type !== "") {
-                        console.log('recherche');
-                    }
-                    else {
-                        return $http({
-                            url: apiUrl + "/issues"
-                        });
-                    }
+//                    if (search.type !== "") {
+//                        console.log('recherche');
+//                    }
+//                    else {
+                    return $http({
+                        url: apiUrl + "/issues"
+                    });
+//                    }
                 },
                 getIssue: function (issueId) {
                     return $http({
@@ -45,9 +45,8 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
             };
         })
 
-         .factory("ActionService", function ($http, apiUrl) {
+        .factory("ActionService", function ($http, apiUrl) {
             return {
-
                 getActions: function (issueId) {
                     return $http({
                         url: apiUrl + "/issues/" + issueId + "/actions"
@@ -55,5 +54,20 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                 }
             };
         })
-        ;
+
+        .factory("CameraService", function ($q) {
+            return {
+                getPicture: function (options) {
+                    var deferred = $q.defer();
+                    navigator.camera.getPicture(function (result) {
+// do any magic you need
+                        deferred.resolve(result);
+                    }, function (err) {
+                        deferred.reject(err);
+                    }, options);
+                    return deferred.promise;
+                }
+            }
+        });
+;
         

@@ -28,7 +28,8 @@ angular.module('citizen-engagement')
                         url: "/newIssue",
                         views: {
                             'menuContent': {
-                                templateUrl: "templates/newIssue.html"
+                                templateUrl: "templates/newIssue.html",
+                                controller: "CameraController"
                             }
                         }
                     })
