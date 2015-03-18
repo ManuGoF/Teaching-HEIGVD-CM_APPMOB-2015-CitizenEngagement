@@ -96,10 +96,15 @@
                   <!-- <i class="icon ion-android-locate"></i> -->
                   <input type="text" placeholder="Search in a perimeter [km]" ng-model="search.radius" ng-model-options="{debounce: 1000}">
                 </label>
-                <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ng-click="issueDetails(issue.id)">
-                    {{issue.description}}
-                    <img src="{{issue.imageUrl}}">
-                </ion-item>
+                 <div class="list">
+
+            <a class="item item-thumbnail-left menu-close"  ng-repeat="issue in issues" ng-click="issueDetails(issue.id)">
+                <img src="{{issue.imageUrl}}">
+                <h2>{{issue.description}}</h2>
+                <p>[{{issue.state | uppercase}}]</p>
+            </a>
+        </div>
+
             </ion-list>
         </ion-content>
     </ion-side-menu>
