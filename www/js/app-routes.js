@@ -74,7 +74,17 @@ angular.module('citizen-engagement')
                             }
                         }
 
-                    });
+                    })
+                    .state('app.ownIssueDetails', {
+                        url: '/ownIssueDetails/:issueId',
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/ownIssueDetails.html"
+                            }
+                        }
+
+                    })
+                    ;
             // Define the default state (i.e. the first screen displayed when the app opens).
             $urlRouterProvider.otherwise(function ($injector) {
                 $injector.get('$state').go('app.issueMap'); // Go to the new issue tab by default.

@@ -22,18 +22,31 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                         url: apiUrl + "/issuetypes"
                     });
                 }
-                };
+            };
         })
-        
-        .factory("IssueByUserService", function ($http, apiUrl) {
+
+        .factory("IssuesByUserService", function ($http, apiUrl) {
             return {
                 getIssuesByUser: function (owner_id) {
+                    console.log(owner_id)
                     return $http({
                         url: apiUrl + "/issues/search",
                         method: "POST",
-                        data: '{"_owner":"'+owner_id+'"}'
+                        data: '{"_owner":"' + owner_id + '"}'
                     });
                 }
-                };
-        });
+            };
+        })
+
+         .factory("ActionService", function ($http, apiUrl) {
+            return {
+
+                getActions: function (issueId) {
+                    return $http({
+                        url: apiUrl + "/issues/" + issueId + "/actions"
+                    });
+                }
+            };
+        })
+        ;
         

@@ -1,8 +1,16 @@
 <ion-view title="My Issues">
-  	<ion-nav-buttons side="left">
-  		<button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
-  	</ion-nav-buttons>
-  <ion-content class="has-header">
-    <h1 ng-controller="IssuesByUserController">My issues</h1>
-  </ion-content>
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+
+        <div class="list" ng-controller="IssuesByUserController">
+
+            <a class="item item-thumbnail-left"  ng-repeat="issue in issues" ng-click="issueDetails(issue.id)">
+                <img src="{{issue.imageUrl}}">
+                <h2>{{issue.description}}</h2>
+                <p>[{{issue.state | uppercase}}]</p>
+            </a>
+        </div>
+    </ion-content>
 </ion-view>

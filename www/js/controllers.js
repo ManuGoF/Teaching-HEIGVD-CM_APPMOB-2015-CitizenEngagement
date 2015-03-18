@@ -55,18 +55,21 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             
             
         })
-        .controller("IssuesByUserController", function ($state, $scope, IssueTypeService, AuthService) {
+        .controller("IssuesByUserController", function ($state, $scope, IssuesByUserService, AuthService) {
             
-            var issueTypeList = IssueTypeService.getIssuesByUser(AuthService.currentUserId);
+            var issueTypeList = IssuesByUserService.getIssuesByUser(AuthService.currentUserId);
             issueTypeList.success(function(issuesByUser){
-                //$scope.issuetypes = issuetypes;
-                console.log(issuesByUser);
+                $scope.issues = issuesByUser;
             });
+            $scope.issueDetails = function (issue) {
+                $state.go('app.ownIssueDetails', {issueId: issue});
+            };
             
             
         })
 
         .controller("IssueDetailsController", function ($scope, $stateParams, IssueService, mapboxMapId, mapboxAccessToken) {
+            $scope.visibility = 'ng-hide';
             $scope.issue;
             IssueService.getIssue($stateParams.issueId).success(function (issue) {
                 $scope.issue = issue;
@@ -77,7 +80,44 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $scope.getMap = function (lat, lng) {
                     return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/500x300@2x.png?access_token=" + mapboxAccessToken + "";
                 };
+                $scope.setVisibility = function () {
+                    if ($scope.visibility === 'ng-hide') {
+                         $scope.visibility = 'ng-show';
+                    } else {
+                        $scope.visibility = 'ng-hide';
+                    }
+                };
             });
+        })
+        
+         .controller("IssueActionDetailsController", function ($state, $scope, $stateParams, IssueService, ActionService, mapboxMapId, mapboxAccessToken) {
+            $scope.visibility = 'ng-hide';
+            IssueService.getIssue($stateParams.issueId).success(function (issue) {
+                $scope.issue = issue;
+                $scope.formatDate = function (date) {
+                    var dateOut = new Date(date);
+                    return dateOut;
+                };
+                $scope.getMap = function (lat, lng) {
+                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/500x300@2x.png?access_token=" + mapboxAccessToken + "";
+                };
+                $scope.setVisibility = function () {
+                    if ($scope.visibility === 'ng-hide') {
+                         $scope.visibility = 'ng-show';
+                    } else {
+                        $scope.visibility = 'ng-hide';
+                    }
+                };
+            });
+            
+            ActionService.getActions($stateParams.issueId).success(function(actions){
+               $scope.actions = actions;
+            });
+            $scope.backToMyIssues = function () {
+                $state.go('app.myIssues');
+            };
+            
+            
         })
 
         .controller('MenuController', function ($scope, $state) {
