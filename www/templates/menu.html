@@ -89,8 +89,9 @@
                 </label>
                 <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ng-click="issueDetails(issue.id)">
                     {{issue.description}}
-                    <img src="{{issue.img}}">
+                    <img src="{{issue.imageUrl}}">
                 </ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>
+  </ion-side-menus>
