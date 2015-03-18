@@ -36,10 +36,20 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
         .controller("IssueController", function ($state, $scope, IssueService) {
 
-            var issueList = IssueService.getIssues();
+            $scope.search = {type: "", radius: "", text: ""};
+
+            var issueList = IssueService.getIssues($scope.search);
             issueList.success(function (issues) {
                 $scope.issues = issues;
             });
+
+            $scope.$watch("search", function(search){
+                console.log(search.type);
+                IssueService.getIssues(search).success(function(issues) {
+                    $scope.issues = issues;
+                });
+            }, true);
+
             $scope.issueDetails = function (issue) {
                 $state.go('app.issueDetails', {issueId: issue});
             };
@@ -80,7 +90,17 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             });
         })
 
-        .controller('MenuController', function ($scope, $state) {
+        .controller('MenuController', function ($scope, $state, $ionicScrollDelegate) {
+            $scope.toggleSearch = function () {
+                if (!$scope.searchVisible){
+                    $scope.searchVisible = true;
+                    $ionicScrollDelegate.scrollTop();  
+                } 
+                else {
+                    $scope.searchVisible = false; 
+                }
+            };
+
             $scope.showTextSearch = function () {
                 $scope.textSearchVisible = true;
                 $scope.radiusSearchVisible = false;

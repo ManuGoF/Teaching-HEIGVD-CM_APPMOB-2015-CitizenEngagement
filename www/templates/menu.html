@@ -41,16 +41,16 @@
     <ion-side-menu side="right">
       <div ng-controller="MenuController">
         <header class="bar bar-header bar-stable bar-dark">
-          <h1 class="title">
-            <a class="listlink button button-icon" ng-click="showTextSearch()">
-              <i class="listlink ion-ios-search-strong"></i>
-            </a>
-            <a class="listlink button button-icon" ng-click="showRadiusSearch()">
+          <h1 class="title">Issues list
+<!--             <a class="listlink button button-icon" ng-click="showRadiusSearch()">
               <i class="listlink ion-android-locate"></i>
             </a>
             <a class="listlink button button-icon" ng-click="showTypeSearch()">
               <i class="listlink ion-compose"></i>
             </a>
+            <a class="listlink button button-icon" ng-click="showNothing()">
+              <i class="listlink ion-cross"></i>
+            </a> -->
 <!--             <a class="listlink button button-icon ion-ios-people" ng-click="showMineIssues()"></a> -->
             <!-- <div class="row">
               <div class="col">
@@ -75,17 +75,26 @@
               </div>
             </div> -->
           </h1>
+          <a class="button button-icon" ng-click="toggleSearch()">
+            <i class="searchlink" ng-class="{'ion-ios-search-strong': !searchVisible, 'ion-close': searchVisible}"></i>
+          </a>
         </header>
         <ion-content class="has-header">
             <ion-list ng-controller="IssueController">
-                <label ng-show="textSearchVisible" class="item item-input searchlist">
-                  <input type="text" placeholder="Search by text" ng-model="textSearch">
+                <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
+                  <!-- <i class="icon ion-android-locate"></i> -->
+                  <!-- <div class="input-label">
+                    Issue type
+                  </div>
+                  <select ng-controller="IssueTypeController" ng-model="search.type">
+                    <option no selection></option>
+                    <option value="{{issuetype.id}}" ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
+                  </select> -->
+                  <input type="text" placeholder="Search by type" ng-model="search.type" ng-model-options="{debounce: 1000}">
                 </label>
-                <label ng-show="radiusSearchVisible" class="item item-input searchlist">
-                  <input type="text" placeholder="Search in a perimeter [km]" ng-model="textSearch">
-                </label>
-                <label ng-show="typeSearchVisible" class="item item-input searchlist">
-                  <input type="text" placeholder="Search by type" ng-model="textSearch">
+                <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
+                  <!-- <i class="icon ion-android-locate"></i> -->
+                  <input type="text" placeholder="Search in a perimeter [km]" ng-model="search.radius" ng-model-options="{debounce: 1000}">
                 </label>
                 <ion-item ng-repeat="issue in issues" class="item item-thumbnail-left menu-close" ng-click="issueDetails(issue.id)">
                     {{issue.description}}

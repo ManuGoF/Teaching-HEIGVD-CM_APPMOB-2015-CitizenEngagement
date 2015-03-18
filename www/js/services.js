@@ -2,10 +2,17 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
 
         .factory("IssueService", function ($http, apiUrl) {
             return {
-                getIssues: function () {
-                    return $http({
-                        url: apiUrl + "/issues"
-                    });
+                getIssues: function (search) {
+                    console.log(search);
+
+                    if (search.type !== "") {
+                        console.log('recherche');
+                    }
+                    else {
+                        return $http({
+                            url: apiUrl + "/issues"
+                        });
+                    }
                 },
                 getIssue: function (issueId) {
                     return $http({
