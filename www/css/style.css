@@ -13,7 +13,11 @@ body {
 	position: absolute;
 	bottom: 8%;
 	right: 5%;
-	font-size: 80px;
+	font-size: 70px;
+}
+
+#createIssueButton img{
+	border:	0px;
 }
 
 #parameters {
@@ -29,11 +33,21 @@ body {
 	border-color: #444;
 }
 
-.listlink {
-	top: 5px;
-	font-size: 170%;
+.searchlink {
+	top: 50%;
+	font-size: 150%;
 }
 
 .searchlist {
 	background-color: #eee;
+	height: 35px;
 }
+
+/*.test {
+	color: white;
+	z-index: 98;
+	position: absolute;
+	bottom: 7.9%;
+	right: 6.5%;
+	font-size: 83px;
+}*/
