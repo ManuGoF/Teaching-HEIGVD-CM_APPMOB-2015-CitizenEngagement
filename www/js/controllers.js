@@ -31,7 +31,6 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
                var issueList = IssueService.getIssues({});
                 issueList.success(function (issues) {
-                    console.log("I have " + issues.length + " issues to display on the map");
                     angular.forEach(issues, function (issue) {
                         $scope.mapMarkers.push({
                             lat: issue.lat,
@@ -46,11 +45,26 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     });
                 });
 
-
-            console.log($scope.mapCenter);
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
             };
+
+            $scope.$on("issueFilterEvent", function(event, issues){
+                console.log("IssueFilterEvent")
+                $scope.mapMarkers = [];
+                angular.forEach(issues, function (issue) {
+                        $scope.mapMarkers.push({
+                            lat: issue.lat,
+                            lng: issue.lng,
+                            message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                            getMessageScope: function () {
+                                var scope = $scope.$new();
+                                scope.issue = issue;
+                                return scope;
+                            }
+                        });
+                    });
+            })
         })
 
         .controller("MapPickerController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
@@ -87,7 +101,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
 
 
-        .controller("IssueController", function ($state, $scope, $log, IssueService, geolocation) {
+        .controller("IssueController", function ($state, $scope, $log, IssueService, geolocation, $rootScope) {
 
             $scope.search = {type: "", radius: "", text: "", geoData: {}};
             var geoData = {};
@@ -114,6 +128,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 console.log(search);
                 IssueService.getIssues(search).success(function(issues) {
                     $scope.issues = issues;
+                    $rootScope.$broadcast("issueFilterEvent", issues);
                 });
             }, true);
 

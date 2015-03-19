@@ -43,6 +43,11 @@ body {
 	height: 35px;
 }
 
+.searchlist div {
+	font-size: 11pt;
+	color: #ccc;
+}
+
 /*.test {
 	color: white;
 	z-index: 98;
