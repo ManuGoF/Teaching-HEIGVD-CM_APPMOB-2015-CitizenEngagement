@@ -2,31 +2,34 @@
     <ion-nav-buttons side="left">
         <button class="button button-clear icon ion-chevron-left" ng-controller="MapController" ng-click="backToMap()"> Back</button>
     </ion-nav-buttons>
-  	<ion-content>
-      <div class="list">
+    <ion-content>
+        <div class="list">
 
-        <label class="item item-input item-select">
-          <div class="input-label">
-            Type
-          </div>
-          <select ng-controller="IssueTypeController">
-            <option no selection></option>
-            <option ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
-          </select>
-        </label>
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Description</span>
-          <input type="text" placeholder="Description">
-        </label> 
-          <label class="item item-input item-floating-label">
-              <span classe="input-label"><button ng-click="takePicture()"><a href="" ><img class="full-image" src="img/camera3.png"/></button></a></span>  
-          </label>
-        <button class="button button-full button-energized">
-          Create
-        </button>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Type
+                </div>
+                <select ng-controller="IssueTypeController">
+                    <option no selection></option>
+                    <option ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
+                </select>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Description</span>
+                <input type="text" placeholder="Description">
+            </label> 
+            
+                <button class="button button-block button-positive" ng-click="takePicture()">
+                    Take Picture
+                </button>
 
-      </div>
-  	</ion-content>
+           
+            <button class="button button-full button-energized">
+                Create
+            </button>
+
+        </div>
+    </ion-content>
 </ion-view>
 
 <!-- <ion-view title="Search">

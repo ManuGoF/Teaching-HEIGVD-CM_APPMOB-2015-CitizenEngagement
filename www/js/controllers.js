@@ -181,4 +181,18 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             $scope.createIssue = function () {
                 $state.go('app.newIssue');
             };
-        });
+        })
+
+        .controller('CameraController', function ($scope, CameraService) {
+            $scope.takePicture = function () {
+                CameraService.getPicture({
+                    quality: 75,
+                    targetWidth: 400,
+                    targetHeight: 300,
+                    destinationType: Camera.DestinationType.DATA_URL
+                }).then(function (imageData) {
+// do something with imageData
+                });
+            };
+
+        })
