@@ -29,7 +29,6 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 };
             });
 
-            geolocPromise.finally( function() {
                var issueList = IssueService.getIssues({});
                 issueList.success(function (issues) {
                     console.log("I have " + issues.length + " issues to display on the map");
@@ -46,7 +45,6 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                         });
                     });
                 });
-            });
 
 
             console.log($scope.mapCenter);
@@ -70,8 +68,6 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
             $scope.mapMarkers = [];
 
-
-
             geolocation.getLocation().then(function (data) {
                 $scope.mapCenter.lat = data.coords.latitude;
                 $scope.mapCenter.lng = data.coords.longitude;
@@ -91,7 +87,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
 
 
-        .controller("IssueController", function ($state, $scope, IssueService, geolocation) {
+        .controller("IssueController", function ($state, $scope, $log, IssueService, geolocation) {
 
             $scope.search = {type: "", radius: "", text: "", geoData: {}};
             var geoData = {};
