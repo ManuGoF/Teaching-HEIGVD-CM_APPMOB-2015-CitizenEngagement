@@ -7,34 +7,48 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             $scope.mapDefaults = {
                 tileLayer: mapboxTileLayer
             };
-            $scope.mapCenter = {
-                lat: 52.7752435,
-                lng: 6.638055,
-                zoom: 14
-            };
 
             $scope.mapMarkers = [];
-            var issueList = IssueService.getIssues({});
-            issueList.success(function (issues) {
-                angular.forEach(issues, function (issue) {
-                    $scope.mapMarkers.push({
-                        lat: issue.lat,
-                        lng: issue.lng,
-                        message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
-                        getMessageScope: function () {
-                            var scope = $scope.$new();
-                            scope.issue = issue;
-                            return scope;
-                        }
+                $scope.mapCenter = {
+                    lat: 52.7752435,
+                    lng: 6.638055,
+                    zoom: 14
+                };
+
+            var geolocPromise = geolocation.getLocation().then(function (data) {
+                $scope.mapCenter = {};
+                $scope.mapCenter.lat = data.coords.latitude;
+                $scope.mapCenter.lng = data.coords.longitude;
+                $scope.mapCenter.zoom = 14;
+            }, function (error) {
+                $log.error("Could not get location: " + error);
+                $scope.mapCenter = {
+                    lat: 52.7752435,
+                    lng: 6.638055,
+                    zoom: 14
+                };
+            });
+
+            geolocPromise.finally( function() {
+               var issueList = IssueService.getIssues({});
+                issueList.success(function (issues) {
+                    console.log("I have " + issues.length + " issues to display on the map");
+                    angular.forEach(issues, function (issue) {
+                        $scope.mapMarkers.push({
+                            lat: issue.lat,
+                            lng: issue.lng,
+                            message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                            getMessageScope: function () {
+                                var scope = $scope.$new();
+                                scope.issue = issue;
+                                return scope;
+                            }
+                        });
                     });
                 });
             });
-            geolocation.getLocation().then(function (data) {
-                $scope.mapCenter.lat = data.coords.latitude;
-                $scope.mapCenter.lng = data.coords.longitude;
-            }, function (error) {
-                $log.error("Could not get location: " + error);
-            });
+
+
             console.log($scope.mapCenter);
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
