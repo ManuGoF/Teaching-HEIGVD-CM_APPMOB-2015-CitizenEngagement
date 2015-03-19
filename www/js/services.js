@@ -9,7 +9,7 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     console.log(search.text);
                     console.log(search.geoData);
 
-                      
+
                     if (search === undefined) {
                         search = {};
                     }
@@ -30,55 +30,55 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
 
                     // Search with type and text and radius
                     if (search.type !== "" && search.text !== "" && search.radius !== "") {
-                        dataSearch = { $and: [ 
-                                {'description': {'$regex': search.text, '$options': "si"}}, 
+                        dataSearch = {$and: [
+                                {'description': {'$regex': search.text, '$options': "si"}},
                                 {_issueType: search.type},
-                                { loc: {
-                                    '$geoWithin': {
-                                        '$centerSphere' : [
-                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                                {loc: {
+                                        '$geoWithin': {
+                                            '$centerSphere': [
+                                                [search.geoData.lng, search.geoData.lat], search.radius / 0.62137 / 3959]
+                                        }
                                     }
-                                }
-                            }] 
+                                }]
                         };
                     }
 
                     // Search with text and type
                     else if (search.type !== "" && search.text !== "" && search.radius == "") {
-                        dataSearch = { $and: [ 
-                                {'description': {'$regex': search.text, '$options': "si"}}, 
-                                {_issueType: search.type} 
-                            ] 
+                        dataSearch = {$and: [
+                                {'description': {'$regex': search.text, '$options': "si"}},
+                                {_issueType: search.type}
+                            ]
                         };
-                    }  
+                    }
 
-/*                    // Search with text and radius
-                    else if (search.type == "" && search.text !== "" && search.radius !== "") {
-                        dataSearch = { $and: [ 
-                                {'description': {'$regex': search.text, '$options': "si"}}, 
-                                { loc: {
-                                    '$geoWithin': {
-                                        '$centerSphere' : [
-                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
-                                    }
-                                }
-                            ] 
-                        };
-                    } */ 
+                    /*                    // Search with text and radius
+                     else if (search.type == "" && search.text !== "" && search.radius !== "") {
+                     dataSearch = { $and: [ 
+                     {'description': {'$regex': search.text, '$options': "si"}}, 
+                     { loc: {
+                     '$geoWithin': {
+                     '$centerSphere' : [
+                     [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                     }
+                     }
+                     ] 
+                     };
+                     } */
 
-/*                    // Search with type and radius
-                    else if (search.type !== "" && search.text == "" && search.radius !== "") {
-                        dataSearch = { $and: [ 
-                                { loc: {
-                                    '$geoWithin': {
-                                        '$centerSphere' : [
-                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
-                                    }
-                                }, 
-                                {_issueType: search.type} 
-                            ] 
-                        };
-                    } */             
+                    /*                    // Search with type and radius
+                     else if (search.type !== "" && search.text == "" && search.radius !== "") {
+                     dataSearch = { $and: [ 
+                     { loc: {
+                     '$geoWithin': {
+                     '$centerSphere' : [
+                     [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                     }
+                     }, 
+                     {_issueType: search.type} 
+                     ] 
+                     };
+                     } */
 
                     // Search with text only
                     if (search.text !== "") {
@@ -93,10 +93,10 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     // Search with radius only
                     else if (search.radius !== "") {
                         dataSearch = {
-                                loc: {
-                                    '$geoWithin': {
-                                        '$centerSphere' : [
-                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                            loc: {
+                                '$geoWithin': {
+                                    '$centerSphere': [
+                                        [search.geoData.lng, search.geoData.lat], search.radius / 0.62137 / 3959]
                                 }
                             }
                         };
@@ -110,16 +110,33 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                         url: apiUrl + "/issues/search",
                         method: "POST",
                         data: dataSearch,
-                        headers:{
+                        headers: {
                             'x-pagination': '0;*'
                         }
-                    }).success(function(data){
+                    }).success(function (data) {
                         console.log(data);
                     });
                 },
                 getIssue: function (issueId) {
                     return $http({
                         url: apiUrl + "/issues/" + issueId
+                    });
+                },
+                createIssue: function (description, lng, lat, imageUrl, issueTypeId) {
+                    return $http({
+                        method: 'POST',
+                        url: apiUrl + '/issues',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data:
+                                {
+                                    description: description,
+                                    lng: lng,
+                                    lat: lat,
+                                    imageUrl: imageUrl,
+                                    issueTypeId: issueTypeId
+                                }
                     });
                 }
             };
@@ -132,16 +149,16 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                         url: apiUrl + "/issuetypes"
                     });
                 }
-                };
+            };
         })
-        
+
         .factory("IssuesByUserService", function ($http, apiUrl) {
             return {
                 getIssuesByUser: function (owner_id) {
                     return $http({
                         url: apiUrl + "/issues/search",
                         method: "POST",
-                        data: '{"_owner":"'+owner_id+'"}'
+                        data: '{"_owner":"' + owner_id + '"}'
                     });
                 }
             };
@@ -170,5 +187,16 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     return deferred.promise;
                 }
             }
-        });
+        })
+
+        .factory("UserService", function ($http, apiUrl) {
+            return {
+                getUser: function (userId) {
+                    return $http({
+                        url: apiUrl + "/users/" + userId
+                    });
+                }
+            };
+        })
+        ;
         

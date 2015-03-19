@@ -9,11 +9,11 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
-                $scope.mapCenter = {
-                    lat: 52.7752435,
-                    lng: 6.638055,
-                    zoom: 14
-                };
+            $scope.mapCenter = {
+                lat: 52.7752435,
+                lng: 6.638055,
+                zoom: 14
+            };
 
             var geolocPromise = geolocation.getLocation().then(function (data) {
                 $scope.mapCenter = {};
@@ -29,8 +29,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 };
             });
 
-            geolocPromise.finally( function() {
-               var issueList = IssueService.getIssues({});
+            geolocPromise.finally(function () {
+                var issueList = IssueService.getIssues({});
                 issueList.success(function (issues) {
                     console.log("I have " + issues.length + " issues to display on the map");
                     angular.forEach(issues, function (issue) {
@@ -105,18 +105,18 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             }, function (error) {
                 $log.error("Could not get location: " + error);
                 $scope.radiusPlaceholder = "Not accessible position..";
-            }); 
+            });
 
             var issueList = IssueService.getIssues($scope.search);
             issueList.success(function (issues) {
                 $scope.issues = issues;
             });
 
-            $scope.$watch("search", function(search){
+            $scope.$watch("search", function (search) {
                 console.log("Etape 1: IssueController, scope WATCH");
                 search.geoData = geoData;
                 console.log(search);
-                IssueService.getIssues(search).success(function(issues) {
+                IssueService.getIssues(search).success(function (issues) {
                     $scope.issues = issues;
                 });
             }, true);
@@ -133,6 +133,9 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $scope.issuetypes = issuetypes;
                 console.log(issuetypes);
             });
+            $scope.selectAction = function () {
+                return issueTypeId = $scope.myOption;
+            };
 
 
         })
@@ -247,10 +250,21 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
-        .controller('CameraController', function ($scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService) {
+        .controller('CameraController', function ($state, $scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService, UserService, AuthService) {
 
             $scope.imageUrl = "img/camera.png";
 
+            $scope.createIssue = function () {
+                IssueService.createIssue('dssdfsdfds', mapMarkers[0].lng, mapMarkers[0].lat, imageUrl, issueTypeId).success(function (data) {
+                    $state.go('app.ownIssueDetails', {issueId: data.id});
+                });
+
+            };
+            
+            UserService.getUser(AuthService.currentUserId).success(function(user){
+                $scope.user = user;
+            })
+            
 
             $scope.showPopup = function () {
                 $scope.data = {};
@@ -324,10 +338,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                                         data: "imageData"
                                     }
                                 }).success(function (data) {
-                                    var imageUrl = data.url;
+                                    imageUrl = data.url;
                                     $scope.imageUrl = imageUrl;
-                                    console.log(mapMarkers[0].lat, mapMarkers[0].lng);
-
                                 });
 
 

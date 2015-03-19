@@ -11,8 +11,13 @@
 
             <div class="item item-avatar">
                 <img src="img/default_profile.png">
-                <h2>{{issue.owner.name}}</h2>
-                <p>{{formatDate(issue.createdOn) | date:"dd.MM.yyyy 'at' hh:mm"}} [{{issue.state| uppercase}}]</p>
+                <h2>{{user.firstname}} {{user.lastname}}</h2>
+                <p>Your mission,</p><p>should you choose to accept it...</p>
+                <p>1. Take a picture</p>
+                <p>2. Swipe to pick up location</p>
+                <p>3. Fill the informations</p>
+                <p>4. Submit your issue</p>
+                <p>5. Be proud to be a good citizen</p>
             </div>
 
             <div class="item item-body">
@@ -30,24 +35,20 @@
                     <div class="input-label">
                         IssueType
                     </div>
-                    <select ng-controller="IssueTypeController">
+                    <select ng-controller="IssueTypeController" ng-change="selectAction()" ng-model="myOption">
                     <option no selection></option>
-                    <option ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
+                    <option value="{{issuetype.id}}" ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
                 </select>
                 </label>
                <label class="item item-input item-floating-label">
                 <span class="input-label">Description</span>
                 <input type="text" placeholder="Description">
             </label> 
-                <h2>
-                    {{issue.description}}
-                </h2>
-
             </div>
 
             <div class="item tabs tabs-secondary tabs-icon-left">
 
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="" ng-click="createIssue()" >
                     <i class="icon ion-plus-round"></i>
                     Create issue
                 </a>
