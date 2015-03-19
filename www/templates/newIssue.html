@@ -18,10 +18,10 @@
             <div class="item item-body">
                 <ion-slide-box active-slide="myActiveSlide"  show-pager="true">
                     <ion-slide>
-                        <div class="box blue" ng-controller="CameraController" ng-click="showPopup()"><img height="161px"  class="full-image"  src="{{imageUrl}}"></div>
+                        <div class="box blue" ng-controller="CameraController" ng-click="showPopup()"><img class="full-image" src="{{imageUrl}}"></div>
                     </ion-slide>
                     <ion-slide ng-controller="MapPickerController">
-                        <div class="box blue"><leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" height="161px" width="100%" data-tap-disabled="true"></leaflet></div>
+                        <div class="box blue"><leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" height="357px"  data-tap-disabled="true"></leaflet></div>
                     </ion-slide>
 
                 </ion-slide-box>

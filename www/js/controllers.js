@@ -233,7 +233,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
-        .controller('CameraController', function ($scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http) {
+        .controller('CameraController', function ($scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService) {
 
             $scope.imageUrl = "img/camera.png";
 
@@ -273,50 +273,48 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             text: '<img width="30%" src="img/camera2.png">',
                             type: 'button-positive',
                             onTap: function (e) {
-                                CameraService.getPicture({
-                                    quality: 75,
-                                    targetWidth: 400,
-                                    targetHeight: 300,
-                                    destinationType: Camera.DestinationType.DATA_URL
-                                }).then(function (imageData) {
-                                    $http({
-                                        method: "POST",
-                                        url: qimgUrl + "/images",
-                                        headers: {
-                                            Authorization: "Bearer " + qimgToken,
-                                            'Content-Type': 'application/json'
-                                        },
-                                        data: {
-                                            data: imageData
-                                        }
-                                    }).success(function (data) {
-                                        var imageUrl = data.url;
-                                        $scope.imageUrl = imageUrl;
-                                        $scope.visibility = "ng-show"
-                                        console.log(mapMarkers);
-
-// do something with imageUrl
-                                    });
-                                });
-
-
-//                                $http({
-//                                    method: "POST",
-//                                    url: qimgUrl + "/images",
-//                                    headers: {
-//                                        Authorization: "Bearer " + qimgToken,
-//                                        'Content-Type': 'application/json'
-//                                    },
-//                                    data: {
-//                                        data: "imageData"
-//                                    }
-//                                }).success(function (data) {
-//                                    var imageUrl = data.url;
-//                                    $scope.imageUrl = imageUrl;
-//                                    $scope.visibility = "ng-show"
-//                                    console.log(mapMarkers);
+//                                CameraService.getPicture({
+//                                    quality: 75,
+//                                    targetWidth: 400,
+//                                    targetHeight: 300,
+//                                    destinationType: Camera.DestinationType.DATA_URL
+//                                }).then(function (imageData) {
+//                                    $http({
+//                                        method: "POST",
+//                                        url: qimgUrl + "/images",
+//                                        headers: {
+//                                            Authorization: "Bearer " + qimgToken,
+//                                            'Content-Type': 'application/json'
+//                                        },
+//                                        data: {
+//                                            data: imageData
+//                                        }
+//                                    }).success(function (data) {
+//                                        var imageUrl = data.url;
+//                                        $scope.imageUrl = imageUrl;
+//                                        console.log(mapMarkers);
 //
+//// do something with imageUrl
+//                                    });
 //                                });
+
+
+                                $http({
+                                    method: "POST",
+                                    url: qimgUrl + "/images",
+                                    headers: {
+                                        Authorization: "Bearer " + qimgToken,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: {
+                                        data: "imageData"
+                                    }
+                                }).success(function (data) {
+                                    var imageUrl = data.url;
+                                    $scope.imageUrl = imageUrl;
+                                    console.log(mapMarkers[0].lat, mapMarkers[0].lng);
+
+                                });
 
 
                             }
