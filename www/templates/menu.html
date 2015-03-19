@@ -98,7 +98,7 @@
                 </label>
                 <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
                   <!-- <i class="icon ion-android-locate"></i> -->
-                  <input type="text" placeholder="Search in a perimeter [km]" ng-model="search.radius" ng-model-options="{debounce: 1000}">
+                  <input type="text" ng-disabled="!positionFound" placeholder="{{ radiusPlaceholder }}" ng-model="search.radius" ng-model-options="{debounce: 1000}">
                 </label>
                  <div class="list">
 

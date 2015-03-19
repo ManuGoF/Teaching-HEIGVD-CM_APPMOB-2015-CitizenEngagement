@@ -41,9 +41,21 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
-        .controller("IssueController", function ($state, $scope, IssueService) {
+        .controller("IssueController", function ($state, $scope, IssueService, geolocation) {
 
-            $scope.search = {type: "", radius: "", text: ""};
+            $scope.search = {type: "", radius: "", text: "", geoData: {}};
+            var geoData = {};
+            $scope.radiusPlaceholder = "Searching position...";
+
+            geolocation.getLocation().then(function (data) {
+                geoData.lat = data.coords.latitude;
+                geoData.lng = data.coords.longitude;
+                $scope.radiusPlaceholder = "Search by radius";
+                $scope.positionFound = true;
+            }, function (error) {
+                $log.error("Could not get location: " + error);
+                $scope.radiusPlaceholder = "Not accessible position..";
+            }); 
 
             var issueList = IssueService.getIssues($scope.search);
             issueList.success(function (issues) {
@@ -51,6 +63,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             });
 
             $scope.$watch("search", function(search){
+                console.log("Etape 1: IssueController, scope WATCH");
+                search.geoData = geoData;
                 console.log(search);
                 IssueService.getIssues(search).success(function(issues) {
                     $scope.issues = issues;
