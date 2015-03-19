@@ -1,4 +1,4 @@
-angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', ])
+angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation'])
 
         .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
 
@@ -36,6 +36,41 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $log.error("Could not get location: " + error);
             });
             console.log($scope.mapCenter);
+            $scope.backToMap = function () {
+                $state.go('app.issueMap');
+            };
+        })
+
+        .controller("MapPickerController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
+
+            var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
+            mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}@2x.png?access_token=" + mapboxAccessToken;
+            $scope.mapDefaults = {
+                tileLayer: mapboxTileLayer
+            };
+            $scope.mapCenter = {
+                lat: 52.7752435,
+                lng: 6.638055,
+                zoom: 14
+            };
+
+            $scope.mapMarkers = [];
+
+
+
+            geolocation.getLocation().then(function (data) {
+                $scope.mapCenter.lat = data.coords.latitude;
+                $scope.mapCenter.lng = data.coords.longitude;
+                $scope.mapMarkers.push({
+                    lat: data.coords.latitude,
+                    lng: data.coords.longitude,
+                    draggable: true
+
+                });
+            }, function (error) {
+                $log.error("Could not get location: " + error);
+            });
+            return mapMarkers = $scope.mapMarkers;
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
             };
@@ -183,16 +218,98 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
-        .controller('CameraController', function ($scope, CameraService) {
-            $scope.takePicture = function () {
-                CameraService.getPicture({
-                    quality: 75,
-                    targetWidth: 400,
-                    targetHeight: 300,
-                    destinationType: Camera.DestinationType.DATA_URL
-                }).then(function (imageData) {
-// do something with imageData
+        .controller('CameraController', function ($scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http) {
+
+            $scope.imageUrl = "img/camera.png";
+
+
+            $scope.showPopup = function () {
+                $scope.data = {};
+
+                // An elaborate, custom popup
+                $ionicPopup.show({
+                    title: 'Please choose the source of your pic',
+                    subTitle: 'Either your photo stream or camera',
+                    buttons: [
+                        {
+                            text: '<img width="30%" src="img/stream.png">',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                var options = {
+                                    maximumImagesCount: 10,
+                                    width: 800,
+                                    height: 800,
+                                    quality: 80
+                                };
+
+
+                                window.imagePicker.getPictures(options)
+                                        .then(function (results) {
+                                            for (var i = 0; i < results.length; i++) {
+                                                console.log('Image URI: ' + results[i]);
+                                            }
+                                        }, function (error) {
+                                            // error getting photos
+                                        });
+
+                            }
+                        },
+                        {
+                            text: '<img width="30%" src="img/camera2.png">',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                CameraService.getPicture({
+                                    quality: 75,
+                                    targetWidth: 400,
+                                    targetHeight: 300,
+                                    destinationType: Camera.DestinationType.DATA_URL
+                                }).then(function (imageData) {
+                                    $http({
+                                        method: "POST",
+                                        url: qimgUrl + "/images",
+                                        headers: {
+                                            Authorization: "Bearer " + qimgToken,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        data: {
+                                            data: imageData
+                                        }
+                                    }).success(function (data) {
+                                        var imageUrl = data.url;
+                                        $scope.imageUrl = imageUrl;
+                                        $scope.visibility = "ng-show"
+                                        console.log(mapMarkers);
+
+// do something with imageUrl
+                                    });
+                                });
+
+
+//                                $http({
+//                                    method: "POST",
+//                                    url: qimgUrl + "/images",
+//                                    headers: {
+//                                        Authorization: "Bearer " + qimgToken,
+//                                        'Content-Type': 'application/json'
+//                                    },
+//                                    data: {
+//                                        data: "imageData"
+//                                    }
+//                                }).success(function (data) {
+//                                    var imageUrl = data.url;
+//                                    $scope.imageUrl = imageUrl;
+//                                    $scope.visibility = "ng-show"
+//                                    console.log(mapMarkers);
+//
+//                                });
+
+
+                            }
+                        }
+                    ]
                 });
+
             };
 
-        })
+
+        });

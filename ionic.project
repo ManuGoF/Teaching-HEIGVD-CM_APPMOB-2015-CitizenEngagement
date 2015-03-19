@@ -1,10 +1,14 @@
 {
   "name": "citizen-engagement",
-  "app_id": "bd5c8a41",
+  "app_id": "fc19f689",
   "proxies": [
     {
       "path": "/api-proxy",
       "proxyUrl": "https://infinite-beyond-8938.herokuapp.com/api"
+    },
+    {
+      "path": "/qimg-proxy",
+      "proxyUrl": "https://warm-bastion-3094.herokuapp.com/api"
     }
   ]
 }

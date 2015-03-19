@@ -36,4 +36,6 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
         })
         .config(function ($httpProvider) {
             $httpProvider.interceptors.push('AuthInterceptor');
-});
+    
+    
+})
