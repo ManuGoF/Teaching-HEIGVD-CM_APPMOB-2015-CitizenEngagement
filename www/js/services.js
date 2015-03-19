@@ -19,6 +19,9 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     if (search.text === undefined) {
                         search.text = "";
                     }
+                    if (search.radius === undefined) {
+                        search.radius = "";
+                    }
                     if (search.geoData === undefined) {
                         search.geoData = {};
                     }
@@ -50,22 +53,32 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     }  
 
 /*                    // Search with text and radius
-                    if (search.type !== "" && search.text !== "" && search.radius == "") {
+                    else if (search.type == "" && search.text !== "" && search.radius !== "") {
                         dataSearch = { $and: [ 
                                 {'description': {'$regex': search.text, '$options': "si"}}, 
-                                {_issueType: search.type} 
+                                { loc: {
+                                    '$geoWithin': {
+                                        '$centerSphere' : [
+                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                                    }
+                                }
                             ] 
                         };
-                    }  
+                    } */ 
 
-                    // Search with type and radius
-                    if (search.type !== "" && search.text !== "" && search.radius == "") {
+/*                    // Search with type and radius
+                    else if (search.type !== "" && search.text == "" && search.radius !== "") {
                         dataSearch = { $and: [ 
-                                {'description': {'$regex': search.text, '$options': "si"}}, 
+                                { loc: {
+                                    '$geoWithin': {
+                                        '$centerSphere' : [
+                                        [ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/3959 ]
+                                    }
+                                }, 
                                 {_issueType: search.type} 
                             ] 
                         };
-                    }  */            
+                    } */             
 
                     // Search with text only
                     if (search.text !== "") {
