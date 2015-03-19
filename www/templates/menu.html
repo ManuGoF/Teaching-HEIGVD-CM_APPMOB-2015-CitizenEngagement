@@ -83,18 +83,22 @@
             <ion-list ng-controller="IssueController">
                 <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
                   <!-- <i class="icon ion-android-locate"></i> -->
-                  <!-- <div class="input-label">
-                    Issue type
-                  </div>
-                  <select ng-controller="IssueTypeController" ng-model="search.type">
-                    <option no selection></option>
-                    <option value="{{issuetype.id}}" ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
-                  </select> -->
-                  <input type="text" placeholder="Search by type" ng-model="search.type" ng-model-options="{debounce: 1000}">
+                  <input type="text" placeholder="Search by text descritpion" ng-model="search.text" ng-model-options="{debounce: 1000}">
                 </label>
                 <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
                   <!-- <i class="icon ion-android-locate"></i> -->
-                  <input type="text" placeholder="Search in a perimeter [km]" ng-model="search.radius" ng-model-options="{debounce: 1000}">
+                  <div class="input-label">
+                    Issue type
+                  </div>
+                  <select ng-controller="IssueTypeController" ng-model="search.type" ng-model-options="{debounce: 1000}">
+                    <option no selection></option>
+                    <option value="{{issuetype.id}}" ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
+                  </select>
+                  <!-- <input type="text" placeholder="Search by type" ng-model="search.type" ng-model-options="{debounce: 1000}"> -->
+                </label>
+                <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
+                  <!-- <i class="icon ion-android-locate"></i> -->
+                  <input type="text" ng-disabled="!positionFound" placeholder="{{ radiusPlaceholder }}" ng-model="search.radius" ng-model-options="{debounce: 1000}">
                 </label>
                  <div class="list">
 
