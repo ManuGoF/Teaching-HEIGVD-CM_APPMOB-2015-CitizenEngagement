@@ -14,7 +14,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
-            var issueList = IssueService.getIssues();
+            var issueList = IssueService.getIssues({});
             issueList.success(function (issues) {
                 angular.forEach(issues, function (issue) {
                     $scope.mapMarkers.push({
@@ -50,9 +50,9 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $scope.issues = issues;
             });
 
-            $scope.$watch("search", function (search) {
-                console.log(search.type);
-                IssueService.getIssues(search).success(function (issues) {
+            $scope.$watch("search", function(search){
+                console.log(search);
+                IssueService.getIssues(search).success(function(issues) {
                     $scope.issues = issues;
                 });
             }, true);
