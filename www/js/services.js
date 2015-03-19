@@ -25,18 +25,8 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
 
                     var dataSearch;
 
-
-                    // Search with type and text
-                    if (search.type !== "" && search.text !== "" && search.radius == "") {
-                        dataSearch = { $and: [ 
-                                {'description': {'$regex': search.text, '$options': "si"}}, 
-                                {_issueType: search.type} 
-                            ] 
-                        };
-                    }              
-
                     // Search with type and text and radius
-                    else if (search.type !== "" && search.text !== "" && search.radius !== "") {
+                    if (search.type !== "" && search.text !== "" && search.radius !== "") {
                         dataSearch = { $and: [ 
                                 {'description': {'$regex': search.text, '$options': "si"}}, 
                                 {_issueType: search.type},
@@ -49,6 +39,33 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                             }] 
                         };
                     }
+
+                    // Search with text and type
+                    else if (search.type !== "" && search.text !== "" && search.radius == "") {
+                        dataSearch = { $and: [ 
+                                {'description': {'$regex': search.text, '$options': "si"}}, 
+                                {_issueType: search.type} 
+                            ] 
+                        };
+                    }  
+
+/*                    // Search with text and radius
+                    if (search.type !== "" && search.text !== "" && search.radius == "") {
+                        dataSearch = { $and: [ 
+                                {'description': {'$regex': search.text, '$options': "si"}}, 
+                                {_issueType: search.type} 
+                            ] 
+                        };
+                    }  
+
+                    // Search with type and radius
+                    if (search.type !== "" && search.text !== "" && search.radius == "") {
+                        dataSearch = { $and: [ 
+                                {'description': {'$regex': search.text, '$options': "si"}}, 
+                                {_issueType: search.type} 
+                            ] 
+                        };
+                    }  */            
 
                     // Search with text only
                     if (search.text !== "") {
