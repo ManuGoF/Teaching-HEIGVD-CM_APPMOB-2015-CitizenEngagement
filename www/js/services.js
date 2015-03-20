@@ -58,7 +58,7 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
 
                         }
                     }).success(function (data) {
-                        console.log(data);
+//                        console.log(data);
                     });
                 },
                 getIssue: function (issueId) {

@@ -35,14 +35,16 @@
                     <div class="input-label">
                         IssueType
                     </div>
-                    <select ng-controller="IssueTypeController" ng-change="selectAction()" ng-model="myOption">
+                    <select ng-controller="IssueTypeController" ng-change="selectAction()" ng-model="input.issueTypeId">
                     <option no selection></option>
                     <option value="{{issuetype.id}}" ng-repeat="issuetype in issuetypes">{{issuetype.name}}</option>
                 </select>
                 </label>
+                
                <label class="item item-input item-floating-label">
-                <span class="input-label">Description</span>
-                <input type="text" placeholder="Description">
+                   
+                <span class="input-label"></span>
+                <input type="text" placeholder="Description" ng-model="input.description" required>
             </label> 
             </div>
 
