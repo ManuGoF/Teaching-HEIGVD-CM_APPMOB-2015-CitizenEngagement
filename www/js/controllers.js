@@ -1,6 +1,14 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation'])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading) {
+
+
+
+
+
+            $ionicLoading.show({
+                template: '<ion-spinner icon="ios"></ion-spinner>'
+            });
 
             var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
             mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}@2x.png?access_token=" + mapboxAccessToken;
@@ -45,8 +53,9 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                         }
                     });
                 });
+                 $ionicLoading.hide();
             });
-
+         
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
             };
@@ -342,47 +351,47 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             text: '<img width="30%" src="img/camera2.png">',
                             type: 'button-positive',
                             onTap: function (e) {
-//                                CameraService.getPicture({
-//                                    quality: 75,
-//                                    targetWidth: 400,
-//                                    targetHeight: 300,
-//                                    destinationType: Camera.DestinationType.DATA_URL
-//                                }).then(function (imageData) {
-//                                    $http({
-//                                        method: "POST",
-//                                        url: qimgUrl + "/images",
-//                                        headers: {
-//                                            Authorization: "Bearer " + qimgToken,
-//                                            'Content-Type': 'application/json'
-//                                        },
-//                                        data: {
-//                                            data: imageData
-//                                        }
-//                                    }).success(function (data) {
-//                                        imageUrl = data.url;
-//                                        $scope.imageUrl = imageUrl;
-//
-//// do something with imageUrl
-//                                    });
-//                                });
+                                CameraService.getPicture({
+                                    quality: 75,
+                                    targetWidth: 400,
+                                    targetHeight: 300,
+                                    destinationType: Camera.DestinationType.DATA_URL
+                                }).then(function (imageData) {
+                                    $http({
+                                        method: "POST",
+                                        url: qimgUrl + "/images",
+                                        headers: {
+                                            Authorization: "Bearer " + qimgToken,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        data: {
+                                            data: imageData
+                                        }
+                                    }).success(function (data) {
+                                        imageUrl = data.url;
+                                        $scope.imageUrl = imageUrl;
 
-
-                                $http({
-                                    method: "POST",
-                                    url: qimgUrl + "/images",
-                                    headers: {
-                                        Authorization: "Bearer " + qimgToken,
-                                        'Content-Type': 'application/json'
-                                    },
-                                    data: {
-                                        data: "imageData"
-                                    }
-                                }).success(function (data) {
-                                    imageUrl = data.url;
-                                    $scope.imageUrl = imageUrl;
-
-
+// do something with imageUrl
+                                    });
                                 });
+
+
+//                                $http({
+//                                    method: "POST",
+//                                    url: qimgUrl + "/images",
+//                                    headers: {
+//                                        Authorization: "Bearer " + qimgToken,
+//                                        'Content-Type': 'application/json'
+//                                    },
+//                                    data: {
+//                                        data: "imageData"
+//                                    }
+//                                }).success(function (data) {
+//                                    imageUrl = data.url;
+//                                    $scope.imageUrl = imageUrl;
+//
+//
+//                                });
 
 
                             }
