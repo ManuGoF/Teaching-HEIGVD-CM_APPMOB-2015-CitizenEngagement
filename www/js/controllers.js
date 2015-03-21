@@ -58,7 +58,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>'+issue.description+'</p><img src="'+issue.imageUrl+'" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails('+issue.id+')">Details</a>',
+                        message: '<p>' + issue.description + '</p><img src="' + issue.imageUrl + '" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
@@ -131,7 +131,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 IssueService.getIssues(search).success(function (issues) {
                     $scope.issues = issues;
                     $rootScope.$broadcast("issueFilterEvent", issues);
-                    
+
                 });
             }, true);
 
@@ -181,6 +181,18 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     } else {
                         $scope.visibility = 'ng-hide';
                     }
+                };
+                $scope.input = {};
+                $scope.addComment = function () {
+
+                    if ($scope.input.comment !== undefined) {
+                        IssueService.addComment($stateParams.issueId, $scope.input.comment).success(function (commentedIssue) {
+                            $scope.issue = commentedIssue;
+                            $scope.input.comment = "";
+                        });
+                    }
+
+
                 };
             });
         })
@@ -261,9 +273,12 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
+
         .controller('CameraController', function ($state, $scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService, UserService, AuthService) {
-            $scope.imageUrl = "img/camera.png";
+            imageUrl = "img/camera.png";
+            $scope.imageUrl = imageUrl;
             $scope.input = {};
+
 
 
 
@@ -272,10 +287,18 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             });
 
             $scope.createIssue = function () {
+                if (imageUrl !== "img/camera.png" && $scope.input.description !== undefined && $scope.input.issueTypeId !== undefined) {
+                    IssueService.createIssue($scope.input.description, mapMarkers[0].lng, mapMarkers[0].lat, imageUrl, $scope.input.issueTypeId).success(function (data) {
+                        $state.go('app.ownIssueDetails', {issueId: data.id});
+                    });
+                } else if (imageUrl === "img/camera.png") {
+                    console.log($scope.input.issueTypeId);
+                    console.log($scope.input.description);
+                    $ionicPopup.alert({title: "Do you really want to be a good citizen?", subTitle: "Looks like you forgot step 1"});
+                } else {
+                    $ionicPopup.alert({title: "Do you really want to be a good citizen?", subTitle: "Looks like you forgot something in step 3"});
+                }
 
-                IssueService.createIssue($scope.input.description, mapMarkers[0].lng, mapMarkers[0].lat, imageUrl, $scope.input.issueTypeId).success(function (data) {
-                    $state.go('app.ownIssueDetails', {issueId: data.id});
-                });
 
             };
 
@@ -319,47 +342,47 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             text: '<img width="30%" src="img/camera2.png">',
                             type: 'button-positive',
                             onTap: function (e) {
-                                CameraService.getPicture({
-                                    quality: 75,
-                                    targetWidth: 400,
-                                    targetHeight: 300,
-                                    destinationType: Camera.DestinationType.DATA_URL
-                                }).then(function (imageData) {
-                                    $http({
-                                        method: "POST",
-                                        url: qimgUrl + "/images",
-                                        headers: {
-                                            Authorization: "Bearer " + qimgToken,
-                                            'Content-Type': 'application/json'
-                                        },
-                                        data: {
-                                            data: imageData
-                                        }
-                                    }).success(function (data) {
-                                        imageUrl = data.url;
-                                        $scope.imageUrl = imageUrl;
-
-// do something with imageUrl
-                                    });
-                                });
-
-
-//                                $http({
-//                                    method: "POST",
-//                                    url: qimgUrl + "/images",
-//                                    headers: {
-//                                        Authorization: "Bearer " + qimgToken,
-//                                        'Content-Type': 'application/json'
-//                                    },
-//                                    data: {
-//                                        data: "imageData"
-//                                    }
-//                                }).success(function (data) {
-//                                    imageUrl = data.url;
-//                                    $scope.imageUrl = imageUrl;
+//                                CameraService.getPicture({
+//                                    quality: 75,
+//                                    targetWidth: 400,
+//                                    targetHeight: 300,
+//                                    destinationType: Camera.DestinationType.DATA_URL
+//                                }).then(function (imageData) {
+//                                    $http({
+//                                        method: "POST",
+//                                        url: qimgUrl + "/images",
+//                                        headers: {
+//                                            Authorization: "Bearer " + qimgToken,
+//                                            'Content-Type': 'application/json'
+//                                        },
+//                                        data: {
+//                                            data: imageData
+//                                        }
+//                                    }).success(function (data) {
+//                                        imageUrl = data.url;
+//                                        $scope.imageUrl = imageUrl;
 //
-//
+//// do something with imageUrl
+//                                    });
 //                                });
+
+
+                                $http({
+                                    method: "POST",
+                                    url: qimgUrl + "/images",
+                                    headers: {
+                                        Authorization: "Bearer " + qimgToken,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: {
+                                        data: "imageData"
+                                    }
+                                }).success(function (data) {
+                                    imageUrl = data.url;
+                                    $scope.imageUrl = imageUrl;
+
+
+                                });
 
 
                             }

@@ -31,7 +31,7 @@
                 <h2>
                     {{issue.description}}
                 </h2>
-                
+
 
                 <p>
                     <a  href="" class="subdued" ng-click="setVisibility()">{{issue.comments.length}} Comments</a>
@@ -51,21 +51,18 @@
 
                 </div>
 
+
+
                 <label class="item item-input {{visibility}}">
-                    <textarea placeholder="Your comment"></textarea>
+                    <input type="text" placeholder="Your comment" ng-model="input.comment">
                 </label>
-
-
-
-
-
             </div>
 
 
 
             <div class="item tabs tabs-secondary tabs-icon-left {{visibility}}">
 
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="" ng-click="addComment()">
                     <i class="icon ion-chatbox"></i>
                     Comment
                 </a>
