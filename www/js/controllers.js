@@ -121,7 +121,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             geolocation.getLocation().then(function (data) {
                 geoData.lat = data.coords.latitude;
                 geoData.lng = data.coords.longitude;
-                $scope.radiusPlaceholder = "Search by radius";
+                $scope.radiusPlaceholder = "Search by radius [meter]";
                 $scope.positionFound = true;
             }, function (error) {
                 $log.error("Could not get location: " + error);
@@ -246,7 +246,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     $scope.searchVisible = false;
                 }
             };
-
+/*
             $scope.showTextSearch = function () {
                 $scope.textSearchVisible = true;
                 $scope.radiusSearchVisible = false;
@@ -273,7 +273,11 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 $scope.radiusSearchVisible = false;
                 $scope.typeSearchVisible = false;
                 $scope.showMineOnly = true;
-            };
+            };*/
+
+/*            $scope.blankField = function () {
+                $scope.textPlaceholder = "";
+            };*/
         })
 
         .controller('CreateIssue', function ($scope, $state) {

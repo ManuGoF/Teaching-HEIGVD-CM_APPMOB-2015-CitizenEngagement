@@ -81,12 +81,20 @@
         </header>
         <ion-content class="has-header">
             <ion-list ng-controller="IssueController">
+              <div>
                 <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
-                  <!-- <i class="icon ion-android-locate"></i> -->
-                  <input type="text" placeholder="Search by text descritpion" ng-model="search.text" ng-model-options="{debounce: 1000}">
+                  <a class="item item-icon-left">
+                    <i class="icon ion-document-text"></i>
+                  </a>
+                  <input type="text" value="test" placeholder="Search by text descritpion" ng-model="search.text" ng-model-options="{debounce: 1000}">
+<!--                   <a class="button button-icon item item-icon-right" ng-click="blankField">
+                    <i class="icon ion-ios-close-outline" href=""></i>
+                  </a> -->
                 </label>
-                <label ng-show="searchVisible" class="item item item-input item item-select searchlist">
-                  <!-- <i class="icon ion-android-locate"></i> -->
+                <label name="test" ng-show="searchVisible" class="item item item-input item item-select searchlist">
+                  <a class="item item-icon-left">
+                    <i class="icon ion-compose"></i>
+                  </a>
                   <div >
                     Issue type
                   </div>
@@ -98,7 +106,10 @@
                 </label>
                 <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
                   <!-- <i class="icon ion-android-locate"></i> -->
-                  <input type="text" ng-disabled="!positionFound" placeholder="{{ radiusPlaceholder }}" ng-model="search.radius" ng-model-options="{debounce: 1000}">
+                  <a class="item item-icon-left">
+                    <i class="icon ion-android-locate"></i>
+                  </a>
+                  <input id="searchPLaceholder" type="text" ng-disabled="!positionFound" placeholder="{{ radiusPlaceholder }}" ng-model="search.radius" ng-model-options="{debounce: 1000}">
                 </label>
                  <div class="list">
 

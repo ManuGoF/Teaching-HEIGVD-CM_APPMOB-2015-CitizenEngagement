@@ -45,19 +45,36 @@ body {
 }
 
 .searchlist div {
-	font-size: 11pt;
-	color: #aaa;
+	font-size: 14px;
+	color: #C9C9C9;
 	padding-top: 2px;
+}
+
+.searchlist a {
+	background-color: transparent;
+	border: none;
+	padding-left: 20px;	
+	padding-right: 25px;
+	margin-left: -25px;
+}
+
+.searchlist a i {
+	left: -5px;	
 }
 
 .searchlist select {
 	background-color: #eee;
+	padding: 7px 40px 7px 10px;
+	max-width: 60%;	
 }
 
-.searchlist .item-select select {
-	padding: 8px 40px 0px 0px;
+.searchlist input[disabled] {
+	background-color: #eee;
 }
 
+.leaflet-control {
+	visibility: hidden;
+}
 /*.test {
 	color: white;
 	z-index: 98;
