@@ -85,9 +85,9 @@
                   <!-- <i class="icon ion-android-locate"></i> -->
                   <input type="text" placeholder="Search by text descritpion" ng-model="search.text" ng-model-options="{debounce: 1000}">
                 </label>
-                <label ng-show="searchVisible" class="item item item-icon-left item-input searchlist">
+                <label ng-show="searchVisible" class="item item item-input item item-select searchlist">
                   <!-- <i class="icon ion-android-locate"></i> -->
-                  <div class="input-label">
+                  <div >
                     Issue type
                   </div>
                   <select ng-controller="IssueTypeController" ng-model="search.type" ng-model-options="{debounce: 1000}">
