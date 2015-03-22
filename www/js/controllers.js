@@ -41,7 +41,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             var issueList = IssueService.getIssues({});
             issueList.success(function (issues) {
                 angular.forEach(issues, function (issue) {
-                    console.log(issue.description)
+                    //console.log(issue.description)
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
