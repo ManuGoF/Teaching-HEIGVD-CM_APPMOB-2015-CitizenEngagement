@@ -3,13 +3,13 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
         .factory("IssueService", function ($http, apiUrl) {
             return {
                 getIssues: function (search) {
-/*                    console.log("Etape 2: IssueService");
-                    console.log(search.type);
-                    console.log(search.radius);
-                    console.log(search.text);
-                    console.log(search.geoData);*/
+                    /*                    console.log("Etape 2: IssueService");
+                     console.log(search.type);
+                     console.log(search.radius);
+                     console.log(search.text);
+                     console.log(search.geoData);*/
 
-                      
+
                     if (search === undefined) {
                         search = {};
                     }
@@ -35,13 +35,13 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     }
 
                     if (search.type !== "") {
-                        dataSearch.$and.push({_issueType: search.type });
+                        dataSearch.$and.push({_issueType: search.type});
                     }
 
                     if (search.radius !== "") {
-                        dataSearch.$and.push({ loc: {'$geoWithin': {
-                            '$centerSphere' : [[ search.geoData.lng , search.geoData.lat ], search.radius/0.62137/1000/3959 ]
-                        }}});
+                        dataSearch.$and.push({loc: {'$geoWithin': {
+                                    '$centerSphere': [[search.geoData.lng, search.geoData.lat], search.radius / 0.62137 / 1000 / 3959]
+                                }}});
                     }
 
                     if (dataSearch.$and.length == 0) {
@@ -52,16 +52,50 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                         url: apiUrl + "/issues/search",
                         method: "POST",
                         data: dataSearch,
-                        headers:{
-                            'x-pagination': '0'+';*'
+                        headers: {
+                            'x-pagination': '0' + ';*'
+
                         }
-                    }).success(function(data){
-                        console.log(data);
+                    }).success(function (data) {
+//                        console.log(data);
                     });
                 },
                 getIssue: function (issueId) {
                     return $http({
                         url: apiUrl + "/issues/" + issueId
+                    });
+                },
+                createIssue: function (description, lng, lat, imageUrl, issueTypeId) {
+                    return $http({
+                        method: 'POST',
+                        url: apiUrl + '/issues',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data:
+                                {
+                                    description: description,
+                                    lng: lng,
+                                    lat: lat,
+                                    imageUrl: imageUrl,
+                                    issueTypeId: issueTypeId
+                                }
+                    });
+                },
+                addComment: function (issueId, comment) {
+                    return $http({
+                        method: 'POST',
+                        url: apiUrl + '/issues/'+ issueId + '/actions',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data:
+                                {
+                                    type: "comment",
+                                    payload: {
+                                        text: comment
+                                    }
+                                }
                     });
                 }
             };
@@ -74,16 +108,16 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                         url: apiUrl + "/issuetypes"
                     });
                 }
-                };
+            };
         })
-        
+
         .factory("IssuesByUserService", function ($http, apiUrl) {
             return {
                 getIssuesByUser: function (owner_id) {
                     return $http({
                         url: apiUrl + "/issues/search",
                         method: "POST",
-                        data: '{"_owner":"'+owner_id+'"}'
+                        data: '{"_owner":"' + owner_id + '"}'
                     });
                 }
             };
@@ -112,5 +146,16 @@ angular.module('citizen-engagement.services', ['citizen-engagement.constants'])
                     return deferred.promise;
                 }
             }
-        });
+        })
+
+        .factory("UserService", function ($http, apiUrl) {
+            return {
+                getUser: function (userId) {
+                    return $http({
+                        url: apiUrl + "/users/" + userId
+                    });
+                }
+            };
+        })
+        ;
         

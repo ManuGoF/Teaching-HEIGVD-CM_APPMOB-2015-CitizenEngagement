@@ -1,6 +1,14 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation'])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation) {
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading) {
+
+
+
+
+
+            $ionicLoading.show({
+                template: '<ion-spinner icon="ios"></ion-spinner>'
+            });
 
             var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + mapboxMapId;
             mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}@2x.png?access_token=" + mapboxAccessToken;
@@ -9,11 +17,11 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
-                $scope.mapCenter = {
-                    lat: 52.7752435,
-                    lng: 6.638055,
-                    zoom: 14
-                };
+            $scope.mapCenter = {
+                lat: 52.7752435,
+                lng: 6.638055,
+                zoom: 14
+            };
 
             var geolocPromise = geolocation.getLocation().then(function (data) {
                 $scope.mapCenter = {};
@@ -29,41 +37,44 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 };
             });
 
-               var issueList = IssueService.getIssues({});
-                issueList.success(function (issues) {
-                    angular.forEach(issues, function (issue) {
-                        $scope.mapMarkers.push({
-                            lat: issue.lat,
-                            lng: issue.lng,
-                            message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
-                            getMessageScope: function () {
-                                var scope = $scope.$new();
-                                scope.issue = issue;
-                                return scope;
-                            }
-                        });
+
+            var issueList = IssueService.getIssues({});
+            issueList.success(function (issues) {
+                angular.forEach(issues, function (issue) {
+                    console.log(issue.description)
+                    $scope.mapMarkers.push({
+                        lat: issue.lat,
+                        lng: issue.lng,
+                        message: '<p>{{issue.description}}</p><img src="{{issue.imageUrl}}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        getMessageScope: function () {
+                            var scope = $scope.$new();
+                            scope.issue = issue;
+                            return scope;
+                        }
                     });
                 });
-
+                 $ionicLoading.hide();
+            });
+         
             $scope.backToMap = function () {
                 $state.go('app.issueMap');
             };
 
-            $scope.$on("issueFilterEvent", function(event, issues){
-                console.log("IssueFilterEvent")
+            $scope.$on("issueFilterEvent", function (event, issues) {
+//                console.log("IssueFilterEvent")
                 $scope.mapMarkers = [];
                 angular.forEach(issues, function (issue) {
-                        $scope.mapMarkers.push({
-                            lat: issue.lat,
-                            lng: issue.lng,
-                            message: '<p>{{ issue.description }}</p><img src="{{ issue.imageUrl }}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
-                            getMessageScope: function () {
-                                var scope = $scope.$new();
-                                scope.issue = issue;
-                                return scope;
-                            }
-                        });
+                    $scope.mapMarkers.push({
+                        lat: issue.lat,
+                        lng: issue.lng,
+                        message: '<p>' + issue.description + '</p><img src="' + issue.imageUrl + '" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        getMessageScope: function () {
+                            var scope = $scope.$new();
+                            scope.issue = issue;
+                            return scope;
+                        }
                     });
+                });
             })
         })
 
@@ -115,20 +126,21 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             }, function (error) {
                 $log.error("Could not get location: " + error);
                 $scope.radiusPlaceholder = "Not accessible position..";
-            }); 
+            });
 
             var issueList = IssueService.getIssues($scope.search);
             issueList.success(function (issues) {
                 $scope.issues = issues;
             });
 
-            $scope.$watch("search", function(search){
-                console.log("Etape 1: IssueController, scope WATCH");
+            $scope.$watch("search", function (search) {
+//                console.log("Etape 1: IssueController, scope WATCH");
                 search.geoData = geoData;
-                console.log(search);
-                IssueService.getIssues(search).success(function(issues) {
+//                console.log(search);
+                IssueService.getIssues(search).success(function (issues) {
                     $scope.issues = issues;
                     $rootScope.$broadcast("issueFilterEvent", issues);
+
                 });
             }, true);
 
@@ -142,7 +154,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             var issueTypeList = IssueTypeService.getIssueTypes();
             issueTypeList.success(function (issuetypes) {
                 $scope.issuetypes = issuetypes;
-                console.log(issuetypes);
+//                console.log(issuetypes);
             });
 
 
@@ -178,6 +190,18 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     } else {
                         $scope.visibility = 'ng-hide';
                     }
+                };
+                $scope.input = {};
+                $scope.addComment = function () {
+
+                    if ($scope.input.comment !== undefined) {
+                        IssueService.addComment($stateParams.issueId, $scope.input.comment).success(function (commentedIssue) {
+                            $scope.issue = commentedIssue;
+                            $scope.input.comment = "";
+                        });
+                    }
+
+
                 };
             });
         })
@@ -258,13 +282,42 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
-        .controller('CameraController', function ($scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService) {
 
-            $scope.imageUrl = "img/camera.png";
+        .controller('CameraController', function ($state, $scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService, UserService, AuthService) {
+            imageUrl = "img/camera.png";
+            $scope.imageUrl = imageUrl;
+            $scope.input = {};
+
+
+
+
+            UserService.getUser(AuthService.currentUserId).success(function (user) {
+                $scope.user = user;
+            });
+
+            $scope.createIssue = function () {
+                if (imageUrl !== "img/camera.png" && $scope.input.description !== undefined && $scope.input.issueTypeId !== undefined) {
+                    IssueService.createIssue($scope.input.description, mapMarkers[0].lng, mapMarkers[0].lat, imageUrl, $scope.input.issueTypeId).success(function (data) {
+                        $state.go('app.ownIssueDetails', {issueId: data.id});
+                    });
+                } else if (imageUrl === "img/camera.png") {
+                    console.log($scope.input.issueTypeId);
+                    console.log($scope.input.description);
+                    $ionicPopup.alert({title: "Do you really want to be a good citizen?", subTitle: "Looks like you forgot step 1"});
+                } else {
+                    $ionicPopup.alert({title: "Do you really want to be a good citizen?", subTitle: "Looks like you forgot something in step 3"});
+                }
+
+
+            };
+
+
 
 
             $scope.showPopup = function () {
                 $scope.data = {};
+
+
 
                 // An elaborate, custom popup
                 $ionicPopup.show({
@@ -298,48 +351,47 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             text: '<img width="30%" src="img/camera2.png">',
                             type: 'button-positive',
                             onTap: function (e) {
-//                                CameraService.getPicture({
-//                                    quality: 75,
-//                                    targetWidth: 400,
-//                                    targetHeight: 300,
-//                                    destinationType: Camera.DestinationType.DATA_URL
-//                                }).then(function (imageData) {
-//                                    $http({
-//                                        method: "POST",
-//                                        url: qimgUrl + "/images",
-//                                        headers: {
-//                                            Authorization: "Bearer " + qimgToken,
-//                                            'Content-Type': 'application/json'
-//                                        },
-//                                        data: {
-//                                            data: imageData
-//                                        }
-//                                    }).success(function (data) {
-//                                        var imageUrl = data.url;
-//                                        $scope.imageUrl = imageUrl;
-//                                        console.log(mapMarkers);
-//
-//// do something with imageUrl
-//                                    });
-//                                });
+                                CameraService.getPicture({
+                                    quality: 75,
+                                    targetWidth: 400,
+                                    targetHeight: 300,
+                                    destinationType: Camera.DestinationType.DATA_URL
+                                }).then(function (imageData) {
+                                    $http({
+                                        method: "POST",
+                                        url: qimgUrl + "/images",
+                                        headers: {
+                                            Authorization: "Bearer " + qimgToken,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        data: {
+                                            data: imageData
+                                        }
+                                    }).success(function (data) {
+                                        imageUrl = data.url;
+                                        $scope.imageUrl = imageUrl;
 
-
-                                $http({
-                                    method: "POST",
-                                    url: qimgUrl + "/images",
-                                    headers: {
-                                        Authorization: "Bearer " + qimgToken,
-                                        'Content-Type': 'application/json'
-                                    },
-                                    data: {
-                                        data: "imageData"
-                                    }
-                                }).success(function (data) {
-                                    var imageUrl = data.url;
-                                    $scope.imageUrl = imageUrl;
-                                    console.log(mapMarkers[0].lat, mapMarkers[0].lng);
-
+// do something with imageUrl
+                                    });
                                 });
+
+
+//                                $http({
+//                                    method: "POST",
+//                                    url: qimgUrl + "/images",
+//                                    headers: {
+//                                        Authorization: "Bearer " + qimgToken,
+//                                        'Content-Type': 'application/json'
+//                                    },
+//                                    data: {
+//                                        data: "imageData"
+//                                    }
+//                                }).success(function (data) {
+//                                    imageUrl = data.url;
+//                                    $scope.imageUrl = imageUrl;
+//
+//
+//                                });
 
 
                             }
@@ -348,6 +400,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 });
 
             };
+
+
 
 
         });
