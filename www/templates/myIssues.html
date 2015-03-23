@@ -7,7 +7,7 @@
         <div class="list" ng-controller="IssuesByUserController">
 
             <a class="item item-thumbnail-left"  ng-repeat="issue in issues" ng-click="issueDetails(issue.id)">
-                <img src="{{issue.imageUrl}}">
+                <img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png">
                 <h2>{{issue.description}}</h2>
                 <p>[{{issue.state | uppercase}}]</p>
             </a>

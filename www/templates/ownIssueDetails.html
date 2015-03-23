@@ -6,11 +6,15 @@
         <button class="button button-clear icon ion-chevron-left" ng-click="backToMyIssues()"> Back</button>
     </ion-nav-buttons>
     <ion-content>
+                <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
 
         <div class="list card">
 
             <div class="item item-avatar">
-                <img src="img/default_profile.png">
+                <img src="img/default_profile.png" >
                 <h2>{{issue.owner.name}}</h2>
                 <p>{{formatDate(issue.createdOn) | date:"dd.MM.yyyy 'at' hh:mm"}} [{{issue.state| uppercase}}]</p>
             </div>
@@ -19,7 +23,7 @@
 
                 <ion-slide-box active-slide="myActiveSlide"  show-pager="true">
                     <ion-slide>
-                        <div class="box blue"><img height="161px" class="full-image" src="{{issue.imageUrl}}"></div>
+                        <div class="box blue"><img height="161px" class="full-image" src="{{issue.imageUrl}}" fallback-src="img/default.png"></div>
                     </ion-slide>
                     <ion-slide>
                         <div class="box blue"><img width="100%" class='full-image' src="{{getMap(issue.lng, issue.lat)}}"/></div>
@@ -51,13 +55,15 @@
                 </div>
 
                 <label class="item item-input {{visibility}}">
-                    <textarea placeholder="Your comment"></textarea>
+                    <input type="text" placeholder="Your comment" ng-model="input.comment">
                 </label>
-
             </div>
+
+
+
             <div class="item tabs tabs-secondary tabs-icon-left {{visibility}}">
 
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="" ng-click="addComment()">
                     <i class="icon ion-chatbox"></i>
                     Comment
                 </a>
