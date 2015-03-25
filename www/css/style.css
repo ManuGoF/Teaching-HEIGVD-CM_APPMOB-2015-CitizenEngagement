@@ -72,8 +72,8 @@ body {
 	background-color: #eee;
 }
 
-.leaflet-control {
-	visibility: hidden;
+.leaflet-control-zoom, .leaflet-control-attribution {
+    visibility: hidden;
 }
 /*.test {
 	color: white;

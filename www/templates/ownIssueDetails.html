@@ -76,9 +76,9 @@
             <div class="item item-body">
                 <h2>Actions taken on your issue</h2>
 
-                <div class="card" ng-repeat="action in actions">
+                <div class="card" ng-repeat="action in issue.actions">
                     <div class="item item-divider">
-                        {{action.user}} {{action.type}}
+                        {{action.user}}
                     </div>
                     <div class="item item-text-wrap">
                         {{action.reason}}

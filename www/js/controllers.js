@@ -1,8 +1,6 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', 'citizen-engagement.directives'])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading) {
-
-
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData) {
 
 
 
@@ -17,25 +15,23 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
+           
             $scope.mapCenter = {
-                lat: 52.7752435,
-                lng: 6.638055,
+                lat: 46.381907, 
+                lng: 6.239630,
                 zoom: 14
             };
+            
+            leafletData.getMap().then(function(map){
+                
+                if (map._controlCorners.bottomleft.childElementCount === 0) {
+                    L.control.locate({position:'bottomleft', follow: true}).addTo(map);
+                }
 
-            var geolocPromise = geolocation.getLocation().then(function (data) {
-                $scope.mapCenter = {};
-                $scope.mapCenter.lat = data.coords.latitude;
-                $scope.mapCenter.lng = data.coords.longitude;
-                $scope.mapCenter.zoom = 14;
-            }, function (error) {
-                $log.error("Could not get location: " + error);
-                $scope.mapCenter = {
-                    lat: 52.7752435,
-                    lng: 6.638055,
-                    zoom: 14
-                };
+
             });
+
+
 
 
             var issueList = IssueService.getIssues({});
@@ -193,7 +189,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     return dateOut;
                 };
                 $scope.getMap = function (lat, lng) {
-                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/500x300@2x.png?access_token=" + mapboxAccessToken + "";
+                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/268x357@2x.png?access_token=" + mapboxAccessToken + "";
                 };
 
                 $scope.setVisibility = function () {
@@ -208,6 +204,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
                     if ($scope.input.comment !== undefined) {
                         IssueService.addComment($stateParams.issueId, $scope.input.comment).success(function (commentedIssue) {
+                            console.log(commentedIssue);
+                            
                             $scope.issue = commentedIssue;
                             $scope.input.comment = "";
                         });
@@ -231,6 +229,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                         });
             }
             IssueService.getIssue($stateParams.issueId).success(function (issue) {
+                console.log(issue);
                 $scope.issue = issue;
                 $scope.formatDate = function (date) {
                     var dateOut = new Date(date);
