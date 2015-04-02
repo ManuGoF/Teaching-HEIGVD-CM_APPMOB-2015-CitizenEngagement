@@ -365,22 +365,32 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             text: '<img width="30%" src="img/stream.png">',
                             type: 'button-positive',
                             onTap: function (e) {
-                                var options = {
-                                    maximumImagesCount: 10,
-                                    width: 800,
-                                    height: 800,
-                                    quality: 80
-                                };
+                                CameraService.getPicture({
+                                    quality: 75,
+                                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                                    targetWidth: 400,
+                                    targetHeight: 300,
+                                    destinationType: Camera.DestinationType.DATA_URL
+                                }).then(function (imageData) {
+                                    $http({
+                                        method: "POST",
+                                        url: qimgUrl + "/images",
+                                        headers: {
+                                            Authorization: "Bearer " + qimgToken,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        data: {
+                                            data: imageData
+                                        }
+                                    }).success(function (data) {
+                                        imageUrl = data.url;
+                                        $scope.imageUrl = imageUrl;
+
+                                    });
+                                });
 
 
-                                window.imagePicker.getPictures(options)
-                                        .then(function (results) {
-                                            for (var i = 0; i < results.length; i++) {
-                                                console.log('Image URI: ' + results[i]);
-                                            }
-                                        }, function (error) {
-                                            // error getting photos
-                                        });
+
 
                             }
                         },
@@ -390,6 +400,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                             onTap: function (e) {
                                 CameraService.getPicture({
                                     quality: 75,
+                                    sourceType: Camera.PictureSourceType.CAMERA,
                                     targetWidth: 400,
                                     targetHeight: 300,
                                     destinationType: Camera.DestinationType.DATA_URL
