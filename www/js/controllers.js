@@ -41,7 +41,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>{{issue.description}}</p><img src="{{issue.imageUrl}}" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
@@ -58,13 +58,12 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
             $scope.$on("issueFilterEvent", function (event, issues) {
 //                console.log("IssueFilterEvent")
-                $scope.mapMarkers = [];
                 angular.forEach(issues, function (issue) {
           
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>' + issue.description + '</p><img ng-src="' + issue.imageUrl + '"  width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
