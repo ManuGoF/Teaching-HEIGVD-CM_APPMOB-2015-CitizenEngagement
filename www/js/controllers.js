@@ -313,6 +313,13 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
              };*/
         })
 
+        .controller('myAccount', function ($scope, $state, AuthService, UserService) {
+            UserService.getUser(AuthService.currentUserId).success(function (user){
+                $scope.user = user;
+            })
+
+        })
+
         .controller('CreateIssue', function ($scope, $state) {
             $scope.createIssue = function () {
                 $state.go('app.newIssue');

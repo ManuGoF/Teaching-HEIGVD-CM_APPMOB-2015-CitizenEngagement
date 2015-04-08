@@ -75,6 +75,11 @@ body {
 .leaflet-control-zoom, .leaflet-control-attribution {
     visibility: hidden;
 }
+
+h9 {
+	font-size: 11px;
+	color: #666;
+}
 /*.test {
 	color: white;
 	z-index: 98;

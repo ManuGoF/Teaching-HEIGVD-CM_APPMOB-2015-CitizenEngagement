@@ -3,25 +3,26 @@
     <!-- <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button> -->
   		<button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
   	</ion-nav-buttons>
-    <ion-content ng-controller="IssueDetailsController">
+    <ion-content ng-controller="myAccount">
 
  		<div class="list card">
 
  			<ul class="list">
 			    <li class="item">
-			    	<p>Firstname</p>
+			    	<h9>Firstname</h9>
 			    	<h2>{{user.firstname}}</h2>  
 			    </li>
 			    <li class="item">
-			    	<p>Lastname</p>
+			    	<h9>Lastname</h9>
 			    	<h2>{{user.lastname}}</h2>  
 			    </li>
 			    <li class="item">
-			    	<p>Phone</p>
+			    	<h9>Phone</h9>
 			    	<h2>{{user.phone}}</h2>  
 			    </li>
 			    <div class="item item-image">
-			    	<p>Profile picture</p>
+			    	<h9>Profile picture</h9>
+			    	<p></p>
 				    <img src="img/default_profile.png">
 				</div>
 			</ul>
@@ -35,9 +36,9 @@
 		</div>
 		<div class = "row center">
                <div class="col">
-                    <button class="button button-full button-positive icon-left ion-ios-telephone">
+                    <a href="+41796786672" class="button button-full button-positive icon-left ion-ios-telephone">
 					  	Call a staff
-					</button>
+					</a>
                 </div>
           </div>
     </ion-content>
