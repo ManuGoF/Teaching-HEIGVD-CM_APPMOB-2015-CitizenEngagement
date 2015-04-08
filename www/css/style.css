@@ -75,6 +75,18 @@ body {
 .leaflet-control-zoom, .leaflet-control-attribution {
     visibility: hidden;
 }
+
+h9 {
+	font-size: 11px;
+	color: #666;
+}
+
+.imgLogin {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 70px;
+}
 /*.test {
 	color: white;
 	z-index: 98;
