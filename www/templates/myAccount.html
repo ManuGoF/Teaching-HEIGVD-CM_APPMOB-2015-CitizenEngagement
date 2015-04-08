@@ -3,7 +3,47 @@
     <!-- <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button> -->
   		<button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
   	</ion-nav-buttons>
-  <ion-content class="has-header">
-    <h1>My account</h1>
-  </ion-content>
+    <ion-content ng-controller="IssueDetailsController">
+
+ 		<div class="list card">
+
+			<div class="item item-avatar">
+				<img src="img/default_profile.png">
+			    <h2>Firstname {{user.firstname}} lastname {{user.lastname}}</h2>
+			    <h3>Phone {{user.phone}}</h3>
+			    <p>Last connection: </p>
+			</div>
+
+			<div class="list">
+				<div class="item item-input-inset">
+				</div>
+				<div class="item item-input-inset">
+				    <label class="item-input-wrapper">
+				      	<input type="text" placeholder="Firstname">
+				    </label>
+				    <button class="button button-small button-positive" ng-click="accountController()">
+				    	Change
+				    </button>
+				</div>
+				<div class="item item-input-inset">
+				    <label class="item-input-wrapper">
+				      	<input type="text" placeholder="Lastname">
+				    </label>
+				    <button class="button button-small button-positive" ng-click="accountController()">
+				      	Change
+				    </button>
+				</div>
+				<div class="item item-input-inset">
+				    <label class="item-input-wrapper">
+				      	<input type="text" placeholder="Phone">
+				    </label>
+				    <button class="button button-small button-positive" ng-click="taccountController()">
+				      	Change
+				    </button>
+				</div>
+			</div>
+		</div>
+
+    </ion-content>
 </ion-view>
+
