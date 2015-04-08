@@ -4,6 +4,7 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
 
             var service = {
                 currentUserId: store.get('currentUserId'),
+                lastLogin: store.get('lastLogin'),
                 setUser: function (user) {
                     service.currentUserId = user.userId;
                     store.set('currentUserId', user.userId);
@@ -11,6 +12,10 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
                 unsetUser: function () {
                     service.currentUserId = null;
                     store.remove('currentUserId');
+                },
+                setLastLogin: function (currentTimestamp) {
+                    service.lastLogin = currentTimestamp;
+                    store.set('lastLogin', currentTimestamp);
                 }
             };
 
@@ -44,10 +49,10 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
                     url: apiUrl + '/users/logister',
                     data: $scope.user
                 }).success(function (user) {
-
+                    var date = new Date;
                     // If successful, give the user to the authentication service.
                     AuthService.setUser(user);
-
+                    AuthService.setLastLogin(date.toLocaleString());
                     // Hide the loading message.
                     $ionicLoading.hide();
 

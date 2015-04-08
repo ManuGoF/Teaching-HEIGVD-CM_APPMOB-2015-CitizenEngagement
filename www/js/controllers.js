@@ -1,8 +1,8 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', 'citizen-engagement.directives'])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData) {
-
-
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData, AuthService) {
+        
+        console.log(AuthService.lastLogin)
 
             $ionicLoading.show({
                 template: '<ion-spinner icon="ios"></ion-spinner>'
