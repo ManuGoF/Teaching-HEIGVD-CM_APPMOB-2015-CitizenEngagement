@@ -157,7 +157,6 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
         .controller("IssuesByUserController", function ($state, $scope, IssuesByUserService, AuthService) {
             $scope.doRefresh = function () {
-                console.log(AuthService.currentUserId);
                 IssuesByUserService.getIssuesByUser(AuthService.currentUserId)
                         .success(function (issuesByUser) {
                             $scope.issues = issuesByUser;
@@ -325,6 +324,17 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
 
         .controller('myAccount', function ($scope, $state, AuthService, UserService) {
+            $scope.doRefresh = function () {
+                UserService.getUser(AuthService.currentUserId).success(function (user) {
+                    $scope.user = user;
+                    $scope.lastlogin = AuthService.lastLogin;
+                })
+                        .finally(function () {
+                            // Stop the ion-refresher from spinning
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+            }
+
             UserService.getUser(AuthService.currentUserId).success(function (user) {
                 $scope.user = user;
                 $scope.lastlogin = AuthService.lastLogin;
