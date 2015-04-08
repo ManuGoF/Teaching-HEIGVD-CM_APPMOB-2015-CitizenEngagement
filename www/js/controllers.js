@@ -236,7 +236,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     return dateOut;
                 };
                 $scope.getMap = function (lat, lng) {
-                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/500x300@2x.png?access_token=" + mapboxAccessToken + "";
+                         return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/268x357@2x.png?access_token=" + mapboxAccessToken + "";
                 };
                 $scope.setVisibility = function () {
                     if ($scope.visibility === 'ng-hide') {

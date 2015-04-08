@@ -23,10 +23,10 @@
 
                 <ion-slide-box active-slide="myActiveSlide"  show-pager="true">
                     <ion-slide>
-                        <div class="box blue"><img height="161px" class="full-image" src="{{issue.imageUrl}}" fallback-src="img/default.png"></div>
+                        <div class="box blue"><img height="357px" class="full-image" ng-src="{{issue.imageUrl}}" fallback-src="img/default.png"></div>
                     </ion-slide>
                     <ion-slide>
-                        <div class="box blue"><img width="100%" class='full-image' src="{{getMap(issue.lng, issue.lat)}}"/></div>
+                        <div class="box blue"><img width="100%" src="{{getMap(issue.lng, issue.lat)}}"/></div>
                     </ion-slide>
 
                 </ion-slide-box>
