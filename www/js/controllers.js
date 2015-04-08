@@ -319,6 +319,20 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
         })
 
+        .controller('myAccount', function ($scope, $state) {
+            $scope.changeLastname = function () {
+                $state.go('app.newIssue');
+            };
+
+            $scope.changeFirstname = function () {
+                $state.go('app.newIssue');
+            };
+
+            $scope.changePhone = function () {
+                $state.go('app.newIssue');
+            };
+        })
+
 
         .controller('CameraController', function ($state, $scope, CameraService, $ionicPopup, qimgUrl, qimgToken, $http, IssueService, UserService, AuthService) {
             imageUrl = "img/camera.png";
