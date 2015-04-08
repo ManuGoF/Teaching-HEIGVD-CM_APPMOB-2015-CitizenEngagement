@@ -1,6 +1,8 @@
 {
   "name": "citizen-engagement",
-  "app_id": "523b0032",
+
+  "app_id": "3accf890",
+
   "proxies": [
     {
       "path": "/api-proxy",
