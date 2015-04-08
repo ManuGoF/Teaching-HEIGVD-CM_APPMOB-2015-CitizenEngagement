@@ -3,13 +3,17 @@
         <button menu-toggle="left" class="button button-icon icon ion-gear-a"></button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-
+        <ion-refresher
+            ng-controller="IssuesByUserController"
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
         <div class="list" ng-controller="IssuesByUserController">
 
             <a class="item item-thumbnail-left"  ng-repeat="issue in issues" ng-click="issueDetails(issue.id)">
                 <img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png">
                 <h2>{{issue.description}}</h2>
-                <p>[{{issue.state | uppercase}}]</p>
+                <p>[{{issue.state| uppercase}}]</p>
             </a>
         </div>
     </ion-content>

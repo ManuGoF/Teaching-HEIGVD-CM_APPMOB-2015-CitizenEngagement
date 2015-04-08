@@ -1,8 +1,8 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', 'citizen-engagement.directives'])
 
         .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData, AuthService) {
-        
-        console.log(AuthService.lastLogin)
+
+            console.log(AuthService.lastLogin)
 
             $ionicLoading.show({
                 template: '<ion-spinner icon="ios"></ion-spinner>'
@@ -15,17 +15,17 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
-           
+
             $scope.mapCenter = {
-                lat: 46.381907, 
+                lat: 46.381907,
                 lng: 6.239630,
                 zoom: 14
             };
-            
-            leafletData.getMap().then(function(map){
-                
+
+            leafletData.getMap().then(function (map) {
+
                 if (map._controlCorners.bottomleft.childElementCount === 0) {
-                    L.control.locate({position:'bottomleft', follow: true}).addTo(map);
+                    L.control.locate({position: 'bottomleft', follow: true}).addTo(map);
                 }
 
 
@@ -156,7 +156,16 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
         })
         .controller("IssuesByUserController", function ($state, $scope, IssuesByUserService, AuthService) {
-
+            $scope.doRefresh = function () {
+                IssuesByUserService.getIssuesByUser(AuthService.currentUserId)
+                        .success(function (issuesByUser) {
+                            $scope.issues = issuesByUser;
+                        })
+                        .finally(function () {
+                            // Stop the ion-refresher from spinning
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+            }
             var issueTypeList = IssuesByUserService.getIssuesByUser(AuthService.currentUserId);
             issueTypeList.success(function (issuesByUser) {
                 $scope.issues = issuesByUser;
@@ -205,7 +214,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     if ($scope.input.comment !== undefined) {
                         IssueService.addComment($stateParams.issueId, $scope.input.comment).success(function (commentedIssue) {
                             console.log(commentedIssue);
-                            
+
                             $scope.issue = commentedIssue;
                             $scope.input.comment = "";
                         });
@@ -236,7 +245,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     return dateOut;
                 };
                 $scope.getMap = function (lat, lng) {
-                         return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/268x357@2x.png?access_token=" + mapboxAccessToken + "";
+                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/268x357@2x.png?access_token=" + mapboxAccessToken + "";
                 };
                 $scope.setVisibility = function () {
                     if ($scope.visibility === 'ng-hide') {
