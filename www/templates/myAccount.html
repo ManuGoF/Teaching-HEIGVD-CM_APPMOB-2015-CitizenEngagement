@@ -5,8 +5,16 @@
   	</ion-nav-buttons>
     <ion-content ng-controller="myAccount">
 
+    	<div class="list list-inset">
+		    <div class="item item-icon-left">
+		      	<h9>Last login</h9>
+		      	<i class="icon ion-log-in"></i>
+			    <h2>
+			    	{{lastlogin}}
+			    </h2> 
+		    </div>
+		</div>
  		<div class="list card">
-
  			<ul class="list">
 			    <li class="item">
 			    	<h9>Firstname</h9>
@@ -28,10 +36,10 @@
 			</ul>
 		</div>
 		<div class="card">
-		  	<div class="item item-text-wrap">
-		  		<p>You doesn't possess the rights to change your personal informations.</p>
-		  		<p>To do this, call a staff that will change for you.</p>
-		  		<p>Thank you</p>
+		  	<div class=" infoAccount item item-text-wrap">
+		  		<p id="paraAccount1">You doesn't possess the rights to change your personal informations.</p>
+		  		<p id="paraAccount2">To do this, call a staff that will change for you.</p>
+		  		<p id="paraAccount3">Thank you</p>
 		  	</div>
 		</div>
 		<div class = "row center">

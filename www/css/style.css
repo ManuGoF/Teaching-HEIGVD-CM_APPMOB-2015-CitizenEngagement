@@ -87,6 +87,22 @@ h9 {
 	margin-right: auto;
 	padding-top: 70px;
 }
+
+.infoAccount {
+	background-color: #92B8F5;
+}
+
+#paraAccount1{
+	color: #0C63EE;
+}
+
+#paraAccount2{
+	color: #0C63EE;
+}
+
+#paraAccount3{
+	color: #0C63EE;
+}
 /*.test {
 	color: white;
 	z-index: 98;
