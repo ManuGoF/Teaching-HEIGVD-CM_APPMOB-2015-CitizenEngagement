@@ -7,43 +7,39 @@
 
  		<div class="list card">
 
-			<div class="item item-avatar">
-				<img src="img/default_profile.png">
-			    <h2>Firstname {{user.firstname}} lastname {{user.lastname}}</h2>
-			    <h3>Phone {{user.phone}}</h3>
-			    <p>Last connection: </p>
-			</div>
-
-			<div class="list">
-				<div class="item item-input-inset">
+ 			<ul class="list">
+			    <li class="item">
+			    	<p>Firstname</p>
+			    	<h2>{{user.firstname}}</h2>  
+			    </li>
+			    <li class="item">
+			    	<p>Lastname</p>
+			    	<h2>{{user.lastname}}</h2>  
+			    </li>
+			    <li class="item">
+			    	<p>Phone</p>
+			    	<h2>{{user.phone}}</h2>  
+			    </li>
+			    <div class="item item-image">
+			    	<p>Profile picture</p>
+				    <img src="img/default_profile.png">
 				</div>
-				<div class="item item-input-inset">
-				    <label class="item-input-wrapper">
-				      	<input type="text" placeholder="Firstname">
-				    </label>
-				    <button class="button button-small button-positive" ng-click="accountController()">
-				    	Change
-				    </button>
-				</div>
-				<div class="item item-input-inset">
-				    <label class="item-input-wrapper">
-				      	<input type="text" placeholder="Lastname">
-				    </label>
-				    <button class="button button-small button-positive" ng-click="accountController()">
-				      	Change
-				    </button>
-				</div>
-				<div class="item item-input-inset">
-				    <label class="item-input-wrapper">
-				      	<input type="text" placeholder="Phone">
-				    </label>
-				    <button class="button button-small button-positive" ng-click="taccountController()">
-				      	Change
-				    </button>
-				</div>
-			</div>
+			</ul>
 		</div>
-
+		<div class="card">
+		  	<div class="item item-text-wrap">
+		  		<p>You doesn't possess the rights to change your personal informations.</p>
+		  		<p>To do this, call a staff that will change for you.</p>
+		  		<p>Thank you</p>
+		  	</div>
+		</div>
+		<div class = "row center">
+               <div class="col">
+                    <button class="button button-full button-positive icon-left ion-ios-telephone">
+					  	Call a staff
+					</button>
+                </div>
+          </div>
     </ion-content>
 </ion-view>
 
