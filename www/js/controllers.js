@@ -1,6 +1,6 @@
 angular.module('citizen-engagement.controllers', ['citizen-engagement.constants', 'citizen-engagement.services', 'citizen-engagement.auth', 'geolocation', 'citizen-engagement.directives'])
 
-        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData) {
+        .controller("MapController", function ($state, $scope, mapboxMapId, mapboxAccessToken, IssueService, geolocation, $ionicLoading, leafletData, $rootScope) {
 
 
 
@@ -58,6 +58,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
             $scope.$on("issueFilterEvent", function (event, issues) {
 //                console.log("IssueFilterEvent")
+                //$scope.mapMarkers = [];
                 angular.forEach(issues, function (issue) {
 
                     $scope.mapMarkers.push({
@@ -65,12 +66,13 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                         lng: issue.lng,
                         message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
-                            var scope = $scope.$new();
+                            var scope = $scope.new();
                             scope.issue = issue;
                             return scope;
                         }
                     });
                 });
+                
             })
         })
 
@@ -246,7 +248,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     return dateOut;
                 };
                 $scope.getMap = function (lat, lng) {
-                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/500x300@2x.png?access_token=" + mapboxAccessToken + "";
+                    return "http://api.tiles.mapbox.com/v4/" + mapboxMapId + "/pin-s-star+f44(" + lat + "," + lng + ",14)/" + lat + "," + lng + ",14/268x357@2x.png?access_token=" + mapboxAccessToken + "";
                 };
                 $scope.setVisibility = function () {
                     if ($scope.visibility === 'ng-hide') {
