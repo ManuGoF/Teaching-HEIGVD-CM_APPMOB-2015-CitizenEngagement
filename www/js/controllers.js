@@ -58,6 +58,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
             $scope.$on("issueFilterEvent", function (event, issues) {
                 angular.forEach(issues, function (issue) {
+          
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
