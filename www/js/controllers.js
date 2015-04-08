@@ -15,17 +15,17 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
             $scope.mapMarkers = [];
-           
+
             $scope.mapCenter = {
-                lat: 46.381907, 
+                lat: 46.381907,
                 lng: 6.239630,
                 zoom: 14
             };
-            
-            leafletData.getMap().then(function(map){
-                
+
+            leafletData.getMap().then(function (map) {
+
                 if (map._controlCorners.bottomleft.childElementCount === 0) {
-                    L.control.locate({position:'bottomleft', follow: true}).addTo(map);
+                    L.control.locate({position: 'bottomleft', follow: true}).addTo(map);
                 }
 
 
@@ -59,7 +59,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             $scope.$on("issueFilterEvent", function (event, issues) {
 //                console.log("IssueFilterEvent")
                 angular.forEach(issues, function (issue) {
-          
+
                     $scope.mapMarkers.push({
                         lat: issue.lat,
                         lng: issue.lng,
@@ -156,7 +156,16 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
         })
         .controller("IssuesByUserController", function ($state, $scope, IssuesByUserService, AuthService) {
-
+            $scope.doRefresh = function () {
+                +IssuesByUserService.getIssuesByUser(AuthService.currentUserId)
+                        .success(function (issuesByUser) {
+                            $scope.issues = issuesByUser;
+                        })
+                        .finally(function () {
+                            // Stop the ion-refresher from spinning
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+            }
             var issueTypeList = IssuesByUserService.getIssuesByUser(AuthService.currentUserId);
             issueTypeList.success(function (issuesByUser) {
                 $scope.issues = issuesByUser;
@@ -166,7 +175,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             };
 
 
-        })
+        }
+        )
 
         .controller("IssueDetailsController", function ($scope, $stateParams, IssueService, mapboxMapId, mapboxAccessToken) {
             $scope.visibility = 'ng-hide';
@@ -205,7 +215,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                     if ($scope.input.comment !== undefined) {
                         IssueService.addComment($stateParams.issueId, $scope.input.comment).success(function (commentedIssue) {
                             console.log(commentedIssue);
-                            
+
                             $scope.issue = commentedIssue;
                             $scope.input.comment = "";
                         });
@@ -314,7 +324,7 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
         })
 
         .controller('myAccount', function ($scope, $state, AuthService, UserService) {
-            UserService.getUser(AuthService.currentUserId).success(function (user){
+            UserService.getUser(AuthService.currentUserId).success(function (user) {
                 $scope.user = user;
                 $scope.lastlogin = AuthService.lastLogin;
             })
