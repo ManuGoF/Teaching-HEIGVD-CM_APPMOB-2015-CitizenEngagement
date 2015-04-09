@@ -14,7 +14,8 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 tileLayer: mapboxTileLayer
             };
 
-            $scope.mapMarkers = [];
+            var markerVersion = 1;
+            $scope.mapMarkers = {};
 
             $scope.mapCenter = {
                 lat: 46.381907,
@@ -38,16 +39,16 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
             issueList.success(function (issues) {
                 angular.forEach(issues, function (issue) {
                     //console.log(issue.description)
-                    $scope.mapMarkers.push({
+                    $scope.mapMarkers[markerVersion + ':' + issue.id] = {
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueMarkerController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
                             return scope;
                         }
-                    });
+                    };
                 });
                 $ionicLoading.hide();
             });
@@ -58,18 +59,20 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
 
             $scope.$on("issueFilterEvent", function (event, issues) {
 //                console.log("IssueFilterEvent")
+                markerVersion++;
+                $scope.mapMarkers = {};
                 angular.forEach(issues, function (issue) {
 
-                    $scope.mapMarkers.push({
+                    $scope.mapMarkers[markerVersion + ':' + issue.id] = {
                         lat: issue.lat,
                         lng: issue.lng,
-                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueController" ng-click="issueDetails(issue.id)">Details</a>',
+                        message: '<p>{{issue.description}}</p><img ng-src="{{issue.imageUrl}}" fallback-src="img/default.png" width="200px" /><a class="button icon-right ion-chevron-right button-calm" ng-controller="IssueMarkerController" ng-click="issueDetails(issue.id)">Details</a>',
                         getMessageScope: function () {
                             var scope = $scope.$new();
                             scope.issue = issue;
                             return scope;
                         }
-                    });
+                    };
                 });
             })
         })
@@ -140,9 +143,16 @@ angular.module('citizen-engagement.controllers', ['citizen-engagement.constants'
                 });
             }, true);
 
+
+        })
+
+        .controller("IssueMarkerController", function ($state, $scope, IssueTypeService) {
+
             $scope.issueDetails = function (issue) {
                 $state.go('app.issueDetails', {issueId: issue});
             };
+
+
         })
 
         .controller("IssueTypeController", function ($state, $scope, IssueTypeService) {
